@@ -10,7 +10,8 @@ module.exports = {
       "browser": true,
       "mocha": true,
     },
-      "rules": { "one-var": 0,
+      "rules": { 
+        "one-var": 0,
       "one-var-declaration-per-line": 0,
       "new-cap": 0,
       "consistent-return": 0,
@@ -25,7 +26,8 @@ module.exports = {
         "requireParamDescription": false,
         "requireReturnDescription": true
       }],
-       "require-jsdoc": ["error", {
+       "require-jsdoc": 
+       ["error", {
         "require": {
             "FunctionDeclaration": true,
             "MethodDefinition": true,
