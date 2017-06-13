@@ -9,7 +9,7 @@ const sass = require('gulp-sass');
 gulp.task('watch', () => {
   gulp.watch('app/views/**', browserSync.reload());
   gulp.watch('public/js/**', browserSync.reload());
-  gulp.watch('app/**/*js', browserSync.reload());
+  gulp.watch('app/**/*.js', browserSync.reload());
   gulp.watch('public/views/**', browserSync.reload());
   gulp.watch('public/css/common.scss', ['sass']);
   gulp.watch('public/css/views/articles.scss', ['sass']);
@@ -18,7 +18,7 @@ gulp.task('watch', () => {
 
 gulp.task('angular', () => {
     gulp.src('bower_components/angular/**/*.js')
-    .pipe(gulp.dest('public/lib/angular'))
+    .pipe(gulp.dest('public/lib/angular'));
 });
 
 gulp.task('angular-bootstrap', () => {
@@ -56,13 +56,13 @@ gulp.task('lint', () => {
 
 gulp.task('nodemon', () => {
   nodemon({
-        script: 'server.js',
-        ext: 'js',
-        ignore: ['README.md', 'node_modules/**', '.DS_Store'],
-        watch: ['app', 'config'],
-        env: {
-            PORT: 3000,
-        }
+    script: 'server.js',
+    ext: 'js',
+    ignore: ['README.md', 'node_modules/**', '.DS_Store'],
+    watch: ['app', 'config'],
+    env: {
+      PORT: 3000,
+    }
   });
 });
 
@@ -85,4 +85,4 @@ gulp.task('mochaTest', () => {
 
 gulp.task('test', ['mochaTest']);
 gulp.task('install', ['bower']);
-gulp.task('default', ['nodemon', 'watch', 'sass','angular', 'bootstrap', 'jquery', 'underscore', 'angularUtils', 'angular-bootstrap']);
+gulp.task('default', ['nodemon', 'watch', 'sass', 'angular', 'bootstrap', 'jquery', 'underscore', 'angularUtils', 'angular-bootstrap']);
