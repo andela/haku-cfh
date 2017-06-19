@@ -10,7 +10,8 @@
   },
   "engines": {
     "node": "6.9.4",
-    "npm": "3.10.10"
+    "npm": "3.10.10",
+    "jade": "0.35.0"
   },
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt",
