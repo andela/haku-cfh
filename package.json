@@ -13,17 +13,11 @@
     "npm": "3.10.10"
   },
   "scripts": {
-<<<<<<< HEAD
     "start": "node node_modules/gulp/bin/gulp",
     "test": "node node_modules/gulp/bin/gulp test",
-    "postinstall": "node node_modules/gulp/bin/gulp install"
-=======
-    "start": "node node_modules/grunt-cli/bin/grunt",
-    "test": "node node_modules/grunt-cli/bin/grunt test",
-    "postinstall": "node node_modules/grunt-cli/bin/grunt install",
+    "postinstall": "node node_modules/gulp/bin/gulp install",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha test/**/*.js",
-    "coveralls": "npm run coverage -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
->>>>>>> 2a82b29c255631ca8a114628937eb1a8df20ec33
+    "coveralls": "npm run coverage -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
   },
   "dependencies": {
     "async": "~0.2.9",
