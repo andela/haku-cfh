@@ -20,13 +20,10 @@ var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
     auth = require('./config/middlewares/authorization'),
     mongoose = require('mongoose');
 
-//Bootstrap db connection
-var db = mongoose.connect(config.db);
-
 //Bootstrap models
 var models_path = __dirname + '/app/models';
-var walk = function(path) {
-    fs.readdirSync(path).forEach(function(file) {
+var walk = function (path) {
+    fs.readdirSync(path).forEach(function (file) {
         var newPath = path + '/' + file;
         var stat = fs.statSync(newPath);
         if (stat.isFile()) {
@@ -45,12 +42,16 @@ require('./config/passport')(passport);
 
 var app = express();
 
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
     next();
 });
 
-//express settings
-require('./config/express')(app, passport, mongoose);
+//Bootstrap db connection
+var db = mongoose.connect(config.db, null, function (err) {
+    //express settings
+    require('./config/express')(app, passport, mongoose);
+});
+
 
 //Bootstrap routes
 require('./config/routes')(app, passport, auth);
