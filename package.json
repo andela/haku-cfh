@@ -14,7 +14,7 @@
     "jade": "0.35.0"
   },
   "scripts": {
-    "start": "node node_modules/grunt-cli/bin/grunt && bower install",
+    "start": "node node_modules/grunt-cli/bin/grunt",
     "test": "node node_modules/grunt-cli/bin/grunt test",
     "postinstall": "node node_modules/grunt-cli/bin/grunt install",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha test/**/*.js",
