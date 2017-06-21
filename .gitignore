@@ -3,7 +3,7 @@ public/lib
 .sass-cache/
 .DS_store
 c4h_keys.txt
-.gitignore
+bower_components
+.env
 coverage
 npm-debug.log
-
