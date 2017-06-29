@@ -14,7 +14,7 @@ exports.signup = function (req, res) {
         email: req.body.email
     }).exec(function (err, existingUser) {
         if (err) {
-            return res.status(400).send('An Error Occurred');
+            return res.redirect('/#!/signup');
         }
 
         if (!existingUser) {
@@ -33,7 +33,7 @@ exports.signup = function (req, res) {
                 res.status(201).send({ token: token });
             });
         } else {
-            return res.status(400).json({ message: 'User exists' });
+            return res.redirect('/#!/signup?error=existinguser');
         }
     });
 };

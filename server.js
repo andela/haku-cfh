@@ -47,12 +47,10 @@ app.use(function (req, res, next) {
 });
 
 //Bootstrap db connection
-var db = mongoose.connect(config.db, null, function (err) {
-    //express settings
-    require('./config/express')(app, passport, mongoose);
-});
+var db = mongoose.connect(config.db);
 
-
+//express settings
+require('./config/express')(app, passport, mongoose);
 //Bootstrap routes
 require('./config/routes')(app, passport, auth);
 
