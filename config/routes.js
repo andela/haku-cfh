@@ -92,5 +92,6 @@ module.exports = function(app, passport, auth) {
     //JWT route
     var jwtCtrl = require('../app/controllers/auth');
     app.post('/api/auth/signup', jwtCtrl.signup);
+    app.post('/api/auth/login', jwtCtrl.login);
 
 };
