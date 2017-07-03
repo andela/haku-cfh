@@ -67,7 +67,7 @@ gulp.task('nodemon', () => {
 });
 
 gulp.task('sass', () => {
-  gulp.src('public/css/common/scss')
+  gulp.src('public/css/*.scss')
     .pipe(sass())
     .pipe(gulp.dest('public/css/'));
 });
