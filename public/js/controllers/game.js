@@ -172,6 +172,52 @@ angular.module('mean.system')
       }
     });
 
+    /**
+     * @description this sets a cookie with a name and expiry date
+     * @function
+     * @param {number} expires the cookie validity in days
+     * @returns {void}
+     */
+    $scope.setOnboardingCookie = (expires) => {
+      const date = new Date();
+      date.setTime(date.getTime() + (expires * 24 * 60 * 60 * 1000));
+      document.cookie = `onboardinguser=CFH;expires=${date.toUTCString()};path=/`;
+    };
+
+    /**
+     * @description this gets a cookie using it's name
+     * @function
+     * @param {string} cookieName the cookie name
+     * @returns {void}
+     */
+    $scope.getCookieByName = (cookieName) => {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i += 1) {
+        const name = cookies[i].split('=')[0];
+        const value = cookies[i].split('=')[1];
+        if (name === cookieName) {
+          return value;
+        } else if (value === cookieName) {
+          return name;
+        }
+      }
+      return '';
+    };
+
+    /**
+     * @description checks if there is no cookie and onboards the user
+     * @function
+     * @returns {void}
+     */
+    $scope.checkCookie = () => {
+      const username = $scope.getCookieByName('onboardinguser');
+
+      if (username !== 'CFH') {
+        $scope.setOnboardingCookie(365);
+        console.log('onboard user');
+      }
+    };
+
     if ($location.search().game && !(/^\d+$/).test($location.search().game)) {
       console.log('joining custom game');
       game.joinGame('joinGame',$location.search().game);
