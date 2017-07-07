@@ -211,10 +211,9 @@ angular.module('mean.system')
      */
     $scope.checkCookie = () => {
       const username = $scope.getCookieByName('onboardinguser');
-
       if (username !== 'CFH') {
         $scope.setOnboardingCookie(365);
-        console.log('onboard user');
+
       }
     };
 

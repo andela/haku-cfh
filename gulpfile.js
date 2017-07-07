@@ -46,6 +46,11 @@ gulp.task('underscore', () => {
     .pipe(gulp.dest('public/lib/underscore'));
 });
 
+gulp.task('introjs', () => {
+  gulp.src('bower_components/intro.js/**/*')
+    .pipe(gulp.dest('public/lib/intro.js'));
+});
+
 gulp.task('lint', () => {
   gulp.src(['gulpfile.js',
     'public/js/**/*.js',
@@ -85,4 +90,4 @@ gulp.task('mochaTest', () => {
 
 gulp.task('test', ['mochaTest']);
 gulp.task('install', ['bower']);
-gulp.task('default', ['nodemon', 'watch', 'sass', 'angular', 'bootstrap', 'jquery', 'underscore', 'angularUtils', 'angular-bootstrap']);
+gulp.task('default', ['nodemon', 'watch', 'sass', 'angular', 'bootstrap', 'jquery', 'underscore', 'angularUtils', 'angular-bootstrap', 'introjs']);
