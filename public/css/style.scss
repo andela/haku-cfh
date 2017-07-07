@@ -102,6 +102,27 @@ $yellow: #fca037;
 	position: relative;
 }
 
+#contain-avatars p {
+	text-align: left;
+}
+
+ul.avatar-list {
+	margin: 10px 0;
+	overflow: hidden;
+}
+
+ul.avatar-list li {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+	width: 25%;
+	float: left;
+
+	img {
+		max-width: 25px;
+	}
+}
+
 #welcome {
 	@extend .parallax;
 	@extend .div-full-height;
@@ -119,6 +140,11 @@ $yellow: #fca037;
 		z-index: 2;
 		padding: 0 4em;
 		top: 50vh;
+	}
+
+	.centered a {
+		color: #fff;
+		text-transform: uppercase;
 	}
 
 	h2 {
