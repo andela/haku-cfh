@@ -22,7 +22,7 @@ $(document).ready(function() {
 </script>
 
 <script></script>
-<div class="container-fluid">
+<div landing class="container-fluid">
   <div class="row">
     <div class="col-sm-12 col-md-3 sidebar">
       <div class="nav-wrapper">
@@ -35,8 +35,8 @@ $(document).ready(function() {
             <li><a href="#!/signup">Sign Up</a></li>
             <li><a href="#!/signin">Sign In</a></li>
           </span>
-          <span ng-hide="showOptions">
-            <li><a href="/signout">Sign Out</a></li>
+          <span ng-hide="showOptions" ng-controller="IndexController">
+            <li><a href="#!/signout" ng-click="logout()">Sign Out</a></li>
           </span>
         </ul>
       </div>
@@ -61,10 +61,7 @@ $(document).ready(function() {
               <p>
                 Warning! This game contains offensive, profane, explicit content created by Cards Against Humanity and provided here, uncensored and complete, in digital form. Human Resources made us say that.
               </p>
-              <p>*To send a private link to your friends, sign up!</p>
-              <!--<div class="col-md-12" id="avatars" ng-controller="IndexController">
-                <img ng-repeat="avatar in avatars" ng-src="{{avatar}}" id="avatar-face">
-              </div>-->
+              <p>*To send a private link to your friends, <a href="/signup">sign up!</a></p>
             </div>
           </div>
         </div>
