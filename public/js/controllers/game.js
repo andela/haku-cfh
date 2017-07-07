@@ -214,6 +214,34 @@ angular.module('mean.system')
       if (username !== 'CFH') {
         $scope.setOnboardingCookie(365);
 
+        const intro = introJs();
+        intro.setOptions({
+          steps: [
+            {
+              intro: `Welcome to Cards for Humanity, a game for despicable people
+                      desprately trying to do good. <br />
+                      I'm here to give you a tour and get you up to speed with
+                      playing the game. <br />
+                      While you're having fun and enjoying the game,
+                      please don't forget to make a donation. <br />
+                      So if you're ready, click the next button to start the tour`
+            },
+            {
+              element: document.getElementById('#player-count-container'),
+              intro: `This is the `
+            },
+          ]
+        });
+        intro.onexit(() => {
+          intro.setOptions({
+            steps: [
+              {
+                intro: 'Welcome to Cards for Humanity. We are glad to have you '
+              }
+            ]
+          });
+        });
+        intro.start();
       }
     };
 
