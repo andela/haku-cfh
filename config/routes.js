@@ -16,8 +16,7 @@ module.exports = function(app, passport, auth) {
     app.post('/donations', users.addDonation);
 
     app.post('/users/session', passport.authenticate('local', {
-        failureRedirect: '/signin',
-        failureFlash: 'Invalid email or password.'
+        session: false
     }), users.session);
 
     app.get('/users/me', users.me);
@@ -89,5 +88,10 @@ module.exports = function(app, passport, auth) {
     var index = require('../app/controllers/index');
     app.get('/play', index.play);
     app.get('/', index.render);
+
+    //JWT route
+    var jwtCtrl = require('../app/controllers/auth');
+    app.post('/api/auth/signup', jwtCtrl.signup);
+    app.post('/api/auth/login', jwtCtrl.login);
 
 };

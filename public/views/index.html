@@ -37,8 +37,8 @@ $(document).ready(function() {
                   <li><a href="#!/signup">Sign Up</a></li>
                   <li><a href="#!/signin">Sign In</a></li>
                 </span>
-                <span ng-hide="showOptions">
-                  <li><a href="/signout">Sign Out</a></li>
+                <span ng-hide="showOptions" ng-controller="IndexController">
+                  <li><a href="#!/signout" ng-click="logout()">Sign Out</a></li>
                 </span>
               </ul>
             </div>

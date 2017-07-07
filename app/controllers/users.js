@@ -45,7 +45,7 @@ exports.signout = function(req, res) {
 /**
  * Session
  */
-exports.session = function(req, res) {
+exports.session = function (req, res) {
   res.redirect('/');
 };
 

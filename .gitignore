@@ -1,6 +1,7 @@
 node_modules
 public/lib
 .sass-cache/
+.idea/
 .DS_store
 c4h_keys.txt
 bower_components
