@@ -136,6 +136,7 @@ module.exports = function(io) {
         }
       } else {
         // TODO: Send an error message back to this user saying the game has already started
+        socket.emit('gamestarted', { msg: 'game started' });
       }
     } else {
       // Put players into the general queue
