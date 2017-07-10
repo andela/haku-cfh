@@ -1,2 +1,4 @@
 eslint:
   enabled: false
+jshint:
+  enabled: false
