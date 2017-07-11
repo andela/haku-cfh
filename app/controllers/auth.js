@@ -14,7 +14,7 @@ exports.signup = function (req, res) {
         email: req.body.email
     }).exec(function (err, existingUser) {
         if (err) {
-            return res.redirect('/#!/signup');
+            return res.status(400);
         }
 
         if (!existingUser) {
@@ -23,17 +23,14 @@ exports.signup = function (req, res) {
             user.provider = 'local';
             user.save(function (err) {
                 if (err) {
-                    return res.render('/#!/signup?error=unknown', {
-                        errors: err.errors,
-                        user: user
-                    });
+                    return res.status(400).send({ message: err.errors });
                 }
 
                 var token = user.generateToken();
                 res.status(201).send({ token: token });
             });
         } else {
-            return res.redirect('/#!/signup?error=existinguser');
+            return res.status(400).send({ message: 'User Exists'});
         }
     });
 };
@@ -46,7 +43,7 @@ exports.login = function (req, res) {
 
     passport.authenticate('local', function (err, user, info) {
         if (err) {
-            return res.status(400).send({
+            return res.status(401).send({
                 message: 'Error occurred'
             });
         }
@@ -54,10 +51,9 @@ exports.login = function (req, res) {
         // If a user is found
         if (user) {
             var token = user.generateToken();
-            res.status(200).json({ token: token });
-        } else {
+            return res.status(200).json({ token: token });
+        } 
             // If user is not found
-            return res.redirect('/#!/signin?error=invalid');
-        }
+          return res.redirect('/#!/signin?error=invalid');
     })(req, res);
 };

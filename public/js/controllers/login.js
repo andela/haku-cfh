@@ -1,5 +1,5 @@
 angular.module('mean.system')
-    .controller('LoginController', ['$scope', '$http', '$location', 'Global', function ($scope, $http, $location, Global) {
+    .controller('LoginController', ['$scope', '$http', '$window', '$location', 'Global', function ($scope, $http, $window, $location, Global) {
         "use strict";
 
         $scope.global = Global;
@@ -12,10 +12,12 @@ angular.module('mean.system')
                 method: 'POST',
                 data: $scope.user
             }).then(function(response) {
-                localStorage.token = response.data.token;
+                if (response.data.token !== undefined) {
+                    localStorage.token = response.data.token;
+                }
                 $location.path('/#!/app');
             }, function(error) {
-                alert(error.data);
+                $location.path('/#!/signin');
             });
         };
     }]);

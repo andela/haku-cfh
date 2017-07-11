@@ -23,11 +23,14 @@
     <div class="col-sm-12 col-md-9 col-md-offset-3 main">
       <section id="login-signup">
         <div class="overlay"></div>
-        <div class="centered">
+        <div class="centered" ng-controller="IndexController">
           <h2>Signin</h2>
           <div class="signup-form">
-            <div class="sign-error" ng-show="showError() === 'invalid'">
+            <div class="alert alert-danger" ng-show="showError() === 'invalid'">
               Please check your username/password and try again.
+            </div>
+            <div class="alert alert-danger" ng-show="showError() === 'userexist'">
+              This user already exists.
             </div>
             <form>
               <div class="input-group"> 
