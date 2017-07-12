@@ -152,6 +152,20 @@ exports.addDonation = function(req, res) {
   res.send();
 };
 
+exports.showDonations = (req, res) => {
+  const userId = req.body.id;
+  console.log('id: ', req.user);
+  User.find({
+    _id: userId
+  }).exec((err, user) => {
+    if (user) {
+      console.log('user: ', user)
+      return res.status(200).send({ message: 'These are the donations' });
+    }
+    return res.status(404).send({ message: 'No donations associated with this user' });
+  });
+};
+
 /**
  *  Show profile
  */
@@ -163,6 +177,7 @@ exports.show = function(req, res) {
     user: user
   });
 };
+
 
 /**
  * Send User
