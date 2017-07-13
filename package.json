@@ -16,7 +16,7 @@
   "scripts": {
     "start": "node node_modules/gulp/bin/gulp",
     "test": "node node_modules/gulp/bin/gulp test",
-    "postinstall": "node node_modules/gulp/bin/gulp install",
+    "postinstall": "node node_modules/gulp/bin/gulp production",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha test/**/*.js",
     "coveralls": "npm run coverage -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
