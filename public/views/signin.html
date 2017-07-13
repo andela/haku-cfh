@@ -26,24 +26,21 @@
         <div class="centered" ng-controller="IndexController">
           <h2>Signin</h2>
           <div class="signup-form">
-            <div class="alert alert-danger" ng-show="showError() === 'invalid'">
-              Please check your username/password and try again.
+            <div ng-class="{'alert alert-danger' : errorMsg}">
+              {{errorMsg}}
             </div>
-            <div class="alert alert-danger" ng-show="showError() === 'userexist'">
-              This user already exists.
-            </div>
-            <form>
+            <form name="signInForm">
               <div class="input-group"> 
                 <div class="input-group-addon"><i class="fa fa-at"></i></div> 
-                <input type="email" class="form-control" id="email" name="email" ng-model="user.email" placeholder="Email" required novalidate />
+                <input type="email" class="form-control" id="email" name="email" ng-model="user.email" placeholder="Email" required />
               </div>
               <div class="input-group"> 
                 <div class="input-group-addon"><i class="fa fa-lock"></i></div> 
-                <input type="password" class="form-control" id="password" name="password" ng-model="user.password" placeholder="Password" required novalidate />
+                <input type="password" class="form-control" id="password" name="password" ng-model="user.password" placeholder="Password" required />
               </div>
 
               <div class="form-actions">
-                <button class="btn btn-success" id="sign-up-btn-other" type="submit" ng-click="login()">Signin</button>
+                <button class="btn btn-success" id="sign-up-btn-other" type="submit" ng-click="login()" ng-disabled="signInForm.$invalid">Signin</button>
               </div>
             </form>
             <div class="login-separate">
