@@ -153,14 +153,16 @@ exports.addDonation = function(req, res) {
 };
 
 exports.showDonations = (req, res) => {
-  const userId = req.body.id;
-  console.log('id: ', req.user);
-  User.find({
-    _id: userId
-  }).exec((err, user) => {
+  User.findOne({
+    _id: '596406299d997c0cd60e426a'
+  })
+  .limit(1)
+  .exec((err, user) => {
     if (user) {
-      console.log('user: ', user)
-      return res.status(200).send({ message: 'These are the donations' });
+      return res.status(200).send({
+        name: user.name,
+        donations: user.donations,
+      });
     }
     return res.status(404).send({ message: 'No donations associated with this user' });
   });

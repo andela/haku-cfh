@@ -1,16 +1,17 @@
-var async = require('async');
+const async = require('async');
+const gameDetails = require('../app/controllers/game');
 
-module.exports = function(app, passport, auth) {
-    //User Routes
-    var users = require('../app/controllers/users');
-    app.get('/signin', users.signin);
-    app.get('/signup', users.signup);
-    app.get('/chooseavatars', users.checkAvatar);
-    app.get('/signout', users.signout);
+module.exports = function (app, passport, auth) {
+    // User Routes
+  const users = require('../app/controllers/users');
+  app.get('/signin', users.signin);
+  app.get('/signup', users.signup);
+  app.get('/chooseavatars', users.checkAvatar);
+  app.get('/signout', users.signout);
 
-    //Setting up the users api
-    app.post('/users', users.create);
-    app.post('/users/avatars', users.avatars);
+    // Setting up the users api
+  app.post('/users', users.create);
+  app.post('/users/avatars', users.avatars);
 
     // Donation Routes
     app.post('/donations', users.addDonation);
@@ -70,31 +71,31 @@ module.exports = function(app, passport, auth) {
     app.param('userId', users.user);
 
     // Answer Routes
-    var answers = require('../app/controllers/answers');
-    app.get('/answers', answers.all);
-    app.get('/answers/:answerId', answers.show);
+  const answers = require('../app/controllers/answers');
+  app.get('/answers', answers.all);
+  app.get('/answers/:answerId', answers.show);
     // Finish with setting up the answerId param
-    app.param('answerId', answers.answer);
+  app.param('answerId', answers.answer);
 
     // Question Routes
-    var questions = require('../app/controllers/questions');
-    app.get('/questions', questions.all);
-    app.get('/questions/:questionId', questions.show);
+  const questions = require('../app/controllers/questions');
+  app.get('/questions', questions.all);
+  app.get('/questions/:questionId', questions.show);
     // Finish with setting up the questionId param
-    app.param('questionId', questions.question);
+  app.param('questionId', questions.question);
 
     // Avatar Routes
-    var avatars = require('../app/controllers/avatars');
-    app.get('/avatars', avatars.allJSON);
+  const avatars = require('../app/controllers/avatars');
+  app.get('/avatars', avatars.allJSON);
 
-    //Home route
-    var index = require('../app/controllers/index');
-    app.get('/play', index.play);
-    app.get('/', index.render);
+    // Home route
+  const index = require('../app/controllers/index');
+  app.get('/play', index.play);
+  app.get('/', index.render);
 
-    //JWT route
-    var jwtCtrl = require('../app/controllers/auth');
-    app.post('/api/auth/signup', jwtCtrl.signup);
-    app.post('/api/auth/login', jwtCtrl.login);
-
+    // JWT route
+  const jwtCtrl = require('../app/controllers/auth');
+  app.post('/api/auth/signup', jwtCtrl.signup);
+  app.post('/api/auth/login', jwtCtrl.login);
+  app.post('/api/games/:id/start', gameDetails.saveGame);
 };
