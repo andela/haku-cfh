@@ -1,59 +1,78 @@
-var passport = require('passport');
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+const passport = require('passport'),
+  mongoose = require('mongoose'),
+  User = mongoose.model('User');
 
-var avatars = require('./avatars').all();
+const avatars = require('./avatars').all();
 
-exports.signup = function (req, res) {
-    "use strict";
-    if (!req.body.name || !req.body.email || !req.body.password) {
-        return res.redirect('/#!/signup?error=incomplete');
+exports.signup = (req, res) => {
+  if (!req.body.name || !req.body.email || !req.body.password) {
+    return res.status(400).json({ message: 'Incomplete user details' });
+  }
+
+  User.findOne({
+    email: req.body.email
+  }).exec((err, existingUser) => {
+    if (err) {
+      return res.status(401).json({
+        message: 'An error occurred'
+      });
     }
 
-    User.findOne({
-        email: req.body.email
-    }).exec(function (err, existingUser) {
-        if (err) {
-            return res.status(400);
-        }
+    if (!existingUser) {
+      const user = new User(req.body);
+      user.avatar = avatars[user.avatar - 1];
+      user.provider = 'jwt';
 
-        if (!existingUser) {
-            var user = new User(req.body);
-            user.avatar = avatars[user.avatar];
-            user.provider = 'local';
-            user.save(function (err) {
-                if (err) {
-                    return res.status(400).send({ message: err.errors });
-                }
-
-                var token = user.generateToken();
-                res.status(201).send({ token: token });
+      let token;
+      try {
+        token = user.generateToken();
+        user.save((err) => {
+          if (err) {
+            return res.status(401).json({
+              message: 'An error occurred'
             });
-        } else {
-            return res.status(400).send({ message: 'User Exists'});
-        }
-    });
+          }
+          res.status(201).send({ token });
+        });
+      } catch (error) {
+        return res.status(500).send({
+          message: 'An error occurred'
+        });
+      }
+    } else {
+      return res.status(400).send({ message: 'User already exists' });
+    }
+  });
 };
 
-exports.login = function (req, res) {
-    "use strict";
-    if (!req.body.email || !req.body.password) {
-        return res.status(400).send("You must send the username and the password");
+exports.login = (req, res) => {
+  if (!req.body.email || !req.body.password) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      return res.status(401).send({
+        message: 'Error occurred'
+      });
     }
 
-    passport.authenticate('local', function (err, user, info) {
-        if (err) {
-            return res.status(401).send({
-                message: 'Error occurred'
-            });
-        }
+    let token;
+    // If user is not found
+    if (!user) {
+      return res.status(401).json({
+        message: 'Username or Password incorrect'
+      });
+    }
 
-        // If a user is found
-        if (user) {
-            var token = user.generateToken();
-            return res.status(200).json({ token: token });
-        } 
-            // If user is not found
-          return res.redirect('/#!/signin?error=invalid');
-    })(req, res);
+    // If a user is found
+    try {
+      token = user.generateToken();
+      return res.status(200).json({ token });
+    } catch (error) {
+      return res.status(500).send({
+        message: 'An error occurred'
+      });
+    }
+  })(req, res);
 };
