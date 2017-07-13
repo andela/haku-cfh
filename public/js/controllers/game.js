@@ -8,6 +8,7 @@ angular.module('mean.system')
     $scope.pickedCards = [];
     var makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
     $scope.makeAWishFact = makeAWishFacts.pop();
+    $scope.introJS = introJs();
 
     $scope.pickCard = function(card) {
       if (!$scope.hasPickedCards) {
@@ -171,6 +172,105 @@ angular.module('mean.system')
         }
       }
     });
+
+    /**
+     * @description this sets a cookie with a name and expiry date
+     * @function
+     * @param {number} expires the cookie validity in days
+     * @returns {void}
+     */
+    $scope.setOnboardingCookie = (expires) => {
+      const date = new Date();
+      date.setTime(date.getTime() + (expires * 24 * 60 * 60 * 1000));
+      document.cookie = `onboardinguser=CFH;expires=${date.toUTCString()};path=/`;
+    };
+
+    /**
+     * @description this gets a cookie using it's name
+     * @function
+     * @param {string} cookieName the cookie name
+     * @returns {void}
+     */
+    $scope.getCookieByName = (cookieName) => {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i += 1) {
+        const name = cookies[i].split('=')[0];
+        const value = cookies[i].split('=')[1];
+        if (name === cookieName) {
+          return value;
+        } else if (value === cookieName) {
+          return name;
+        }
+      }
+      return '';
+    };
+
+    /**
+     * @description checks if there is no cookie and onboards the user
+     * @function
+     * @returns {void}
+     */
+    $scope.checkCookie = () => {
+      const username = $scope.getCookieByName('onboardinguser');
+      if (username !== 'CFH') {
+        $scope.setOnboardingCookie(365);
+
+        $scope.introJS.setOptions({
+          steps: [
+            {
+              intro: `Welcome to Cards for Humanity, a game for despicable people
+                      desprately trying to do good. <br />
+                      I'm here to give you a tour and get you up to speed with
+                      playing the game. <br />
+                      While you're having fun and enjoying the game,
+                      please don't forget to make a donation. <br />
+                      So if you're ready, click the next button to start the tour`
+            },
+            {
+              element: '#player-count-container',
+              intro: `This is the number of current available players and the maximum
+                      number of players that can play the game. You need a minimum of 
+                      three (3) players to start the game`
+            },
+            {
+              element: '#question-container-outer',
+              intro: `When the minimum number of players is reached, a start game button will be shown
+                      in this container. Any player can click on the button to start the game. When a
+                      game is started, questions will appear here`
+            },
+            {
+              element: '#info-container',
+              intro: `Different cards containing answers to the questions will appear here. Select the
+                      cards(s) you think best answers the question`,
+              position: 'top'
+            },
+            {
+              element: '#inner-timer-container',
+              intro: `This countdown timer shows you how much time you have left to pick
+                      a card. (both as a player and as a czar)`
+            },
+            {
+              element: '#player-score',
+              intro: `This is each player's score. First player to reach 
+                      five (5) wins the game.`
+            },
+            {
+              element: '#abandon-game-button',
+              intro: `You can leave the game any time by clicking on the abandon
+                      game button`
+            },
+            {
+              intro: `Thank you for taking the tour. Please remember to make a donation.
+                      All donations go to the Make a Wish foundation`
+            },
+          ]
+        });
+
+        setTimeout(() => {
+          $scope.introJS.start();
+        }, 500);
+      }
+    };
 
     if ($location.search().game && !(/^\d+$/).test($location.search().game)) {
       console.log('joining custom game');
