@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div landing class="container-fluid">
   <div class="row">
     <div class="col-sm-12 col-md-3 sidebar">
       <div class="nav-wrapper">
@@ -25,32 +25,33 @@
         <div class="overlay"></div>
         <div class="centered">
           <h2>Signup</h2>
-          <p>Create an account by entering your email, username and password</p>
-          <div class="signup-form">
-            <form action="/users" method="post">
+          <p>Create an account</p>
+          <div class="signup-form" ng-controller="RegisterController">
+            <form>
               <div class="input-group"> 
                 <div class="input-group-addon"><i class="fa fa-user"></i></div> 
-                <input type="text" class="form-control" id="name" name="name" placeholder="Full name" required novalidate />
+                <input type="text" class="form-control" id="name" name="name" ng-model="user.name" placeholder="Full name" required novalidate />
               </div>
               <div class="input-group"> 
                 <div class="input-group-addon"><i class="fa fa-at"></i></div> 
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required novalidate />
+                <input type="email" class="form-control" id="email" name="email" ng-model="user.email" placeholder="Email" required novalidate />
               </div>
               <div class="input-group"> 
                 <div class="input-group-addon"><i class="fa fa-lock"></i></div> 
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required novalidate />
+                <input type="password" class="form-control" id="password" name="password" ng-model="user.password" placeholder="Password" required novalidate />
               </div>
-              <!--<div id="contain-avatars">
-                <ul ng-controller="IndexController" class="avatar-list">
+              <div id="contain-avatars">
+                <p>Select an Avatar</p>
+                <ul class="avatar-list">
                   <li ng-repeat="avatar in avatars" class="avatars ng-scope">
-                    <input name="avatar" type='radio' value="{{$index}}">
+                    <input name="avatar" type='radio' ng-value="$index" ng-model="user.avatar">
                       <img ng-src="{{avatar}}">
                     </input>
                   </li>
                 </ul>
-              </div>-->
+              </div>
               <div class="form-actions">
-                <button class="btn btn-success" id="sign-up-btn-other" type='submit'>Sign Up</button>
+                <button class="btn btn-success" type='submit' ng-click="createUser()">Sign Up</button>
               </div>
             </form>
             <div class="login-separate">

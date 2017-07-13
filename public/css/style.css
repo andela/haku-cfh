@@ -45,6 +45,22 @@ h1, h2, h3, h4, h5, h6 {
 .main {
   position: relative; }
 
+#contain-avatars p {
+  text-align: left; }
+
+ul.avatar-list {
+  margin: 10px 0;
+  overflow: hidden; }
+
+ul.avatar-list li {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  width: 25%;
+  float: left; }
+  ul.avatar-list li img {
+    max-width: 25px; }
+
 #welcome {
   background: url("../img/card.jpg");
   text-align: center; }
@@ -60,6 +76,9 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 2;
     padding: 0 4em;
     top: 50vh; }
+  #welcome .centered a {
+    color: #fff;
+    text-transform: uppercase; }
   #welcome h2 {
     font-size: 3.25em;
     margin: 0 0 0.7em 0;
