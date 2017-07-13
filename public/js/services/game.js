@@ -1,5 +1,5 @@
 angular.module('mean.system')
-  .factory('game', ['socket', '$timeout', '$http', function (socket, $timeout, $http) {
+  .factory('game', ['socket', '$timeout', '$http', '$window', function (socket, $timeout, $http, $window) {
     const game = {
       id: null, // This player's socket ID, so we know who this player is
       gameID: null,
@@ -173,44 +173,26 @@ angular.module('mean.system')
           game.joinOverride = true;
         }, 15000);
       } else if (data.state === 'game dissolved' || data.state === 'game ended') {
-        if (game.state === 'game ended') {
-          const gamePlayers = [];
-          Object.keys(game.players).map(player => gamePlayers.push(game.players[player].username));
-          const gameWinner = game.players[game.gameWinner].username;
-          const gameRound = game.round;
-          const gameId = game.gameID;
-          const gameOwner = gamePlayers[0];
-          const gameEnded = true;
-          const gameEndTime = Date.now();
-          const gameDetails = {
-            gameId,
-            gameRound,
-            gameOwner,
-            gameWinner,
-            gamePlayers,
-            gameEnded,
-            gameEndTime
-          };
-          $http.post(`/api/games/${game.gameID}/end`, gameDetails);
-        }
+        const gamePlayers = [];
+        Object.keys(game.players).map(player => gamePlayers.push(game.players[player].username));
+        const gameWinner = game.players[game.gameWinner] || 'No winner';
+        const gameRound = game.round;
+        const gameId = game.gameID;
+        const gameOwner = gamePlayers[0];
+        const gameEnded = true;
+        const gameDetails = {
+          gameId,
+          gameRound,
+          gameOwner,
+          gameWinner,
+          gamePlayers,
+          gameEnded
+        };
+        $http.post(`/api/games/${game.gameID}/start`, gameDetails);
         game.players[game.playerIndex].hand = [];
         game.time = 0;
       }
     });
-
-    game.saveGame = () => {
-      socket.emit('startGame');
-      const gameDetails = {
-        gameId: game.gameID,
-        gameRound: game.round,
-        gameOwner: game.players[0].username,
-        gameWinner: '',
-        gamePlayers: [],
-        gameEnded: false,
-        gameStartTime: Date.now()
-      };
-      $http.post(`/api/games/${game.gameID}/start`, gameDetails);
-    };
 
     socket.on('notification', (data) => {
       addToNotificationQueue(data.notification);
@@ -220,7 +202,8 @@ angular.module('mean.system')
       mode = mode || 'joinGame';
       room = room || '';
       createPrivate = createPrivate || false;
-      const userID = window.user ? user._id : 'unauthenticated';
+      $window.user = JSON.parse(localStorage.user);
+      const userID = $window.user ? $window.user._id : 'unauthenticated';
       socket.emit(mode, { userID, room, createPrivate });
     };
 

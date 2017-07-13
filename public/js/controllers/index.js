@@ -22,6 +22,7 @@ angular.module('mean.system')
       });
 
     $scope.logout = function () {
+        localStorage.removeItem('user');
         localStorage.removeItem('token');
         $http.get('/signout');
         $location.path('/');
