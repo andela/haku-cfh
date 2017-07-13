@@ -16,7 +16,7 @@ exports.signup = function (req, res) {
         if (err) {
             return res.redirect('/#!/signup');
         }
-
+        
         if (!existingUser) {
             var user = new User(req.body);
             user.avatar = avatars[user.avatar];
@@ -54,7 +54,7 @@ exports.login = function (req, res) {
         // If a user is found
         if (user) {
             var token = user.generateToken();
-            res.status(200).json({ token: token });
+            res.status(200).json({ token: token, user: user });
         } else {
             // If user is not found
             return res.redirect('/#!/signin?error=invalid');
