@@ -12,11 +12,12 @@ angular.module('mean.system')
                 method: 'POST',
                 data: $scope.user
             }).then(function(response) {
-                localStorage.user = JSON.stringify(response.data.user);
-                localStorage.token = response.data.token;
+                if (response.data.token !== undefined) {
+                    localStorage.token = response.data.token;
+                }
                 $location.path('/#!/app');
             }, function(error) {
-                alert(error.data);
+                $location.path('/#!/signin');
             });
         };
     }]);
