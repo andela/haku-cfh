@@ -1,0 +1,379 @@
+@charset "utf-8";
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+body {
+	background: #fff;
+	font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Montserrat', sans-serif;
+}
+
+$primary-color: #eb3f3a;
+$orange: #ee4d2f;
+$yellow: #fca037;
+
+@mixin col-md {
+  @media only screen and (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin col-sm {
+  @media only screen and (max-width: 769px) {
+    @content;
+  }
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+  background-clip: padding-box;  /* stops bg color from leaking outside the border: */
+}
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+@mixin transform($transforms) {
+	   -moz-transform: $transforms;
+	     -o-transform: $transforms;
+	    -ms-transform: $transforms;
+	-webkit-transform: $transforms;
+          transform: $transforms;
+}
+
+@mixin translate ($x, $y) {
+   @include transform(translate($x, $y));
+}
+
+.div-full-height {
+	@extend .relative;
+	min-height: 100vh;
+}
+
+.parallax {
+	background-attachment: fixed  !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
+	background-size: cover !important;	
+}
+
+.relative {
+	position: relative;
+}
+
+.p10 {
+	padding: 10px;
+}
+
+.p20 {
+	padding: 20px;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.overlay {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	cursor: default;
+	z-index: 1;
+}
+
+.main {
+	position: relative;
+}
+
+#contain-avatars p {
+	text-align: left;
+}
+
+ul.avatar-list {
+	margin: 10px 0;
+	overflow: hidden;
+}
+
+ul.avatar-list li {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+	width: 25%;
+	float: left;
+
+	img {
+		max-width: 25px;
+	}
+}
+
+#welcome {
+	@extend .parallax;
+	@extend .div-full-height;
+	background: url('../img/card.jpg');
+	text-align: center;
+
+	.overlay {
+		@extend .overlay;
+		background: rgba(255,255,255,.90);
+	}
+
+	.centered {
+    @include translate(0, -50%);
+		position: relative;
+		z-index: 2;
+		padding: 0 4em;
+		top: 50vh;
+	}
+
+	.centered a {
+		color: #fff;
+		text-transform: uppercase;
+	}
+
+	h2 {
+		font-size: 3.25em;
+		margin: 0 0 0.7em 0;
+		color: #d52f31;
+		font-weight: bold;
+	}
+
+	.orange-bg {
+		background: $orange;
+		color: #fff;
+		font-size: 1.2em;
+
+		p {
+			margin: 0 0 20px 0;
+		}
+	}
+}
+
+#htp {
+	@extend .parallax;
+	@extend .div-full-height;
+	background: url('../img/htp.jpg');
+
+	.overlay {
+		@extend .overlay;
+		background: rgba(0,0,0,.90);
+	}
+
+	h2 {
+	@extend .relative;
+		font-size: 3.25em;
+		padding: 1em;
+		color: #fff;
+		font-weight: bold;
+		z-index: 2;
+		background:  $yellow ;
+		margin: 0 0 30px 0;
+	}
+
+}
+
+#how-to-play {
+	position: relative;
+	z-index: 2;
+	color: #fff;
+	font-size: 1.5em;
+	margin: 2em 0 0 0;
+	padding: 2.5em;
+	text-align: center;
+
+	.fa {
+		font-size: 4em;
+		margin: 0 0 0.35em 0;
+	}
+}
+
+#charity, #about, #login-signup {
+	@extend .div-full-height;
+}
+
+#charity {
+	background: #fff;
+
+	h2 {
+		font-size: 3em;
+		padding: 2em 0;
+	}
+
+	p.first{
+		margin: 0 0 1em 0;
+		font-size: 2em;
+	}
+
+}
+
+#about {
+	background: #000;
+	color: #fff;
+}
+
+
+.col-md-9, .col-sm-9 {
+	padding: 0px;
+}
+
+.sidebar {
+	position: fixed;
+	bottom: 0px;
+	top: 0px;
+	left: 0px;
+	z-index: 1000;
+	display: block;
+	padding: 20px 10px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background: $primary-color url('../img/bg.jpg');
+	@include col-sm {
+		position: relative;
+  }
+
+	.nav li a {
+		position: relative;
+		display: block;
+		padding: 10px 15px;
+		text-decoration: none;
+	}
+}
+
+.nav li {
+	position: relative;
+	display: block;
+}
+
+.nav li a, span .nav li a {
+	background: #fff;
+	color: $primary-color;
+	margin: 0 0 10px 0;
+	font-size: 1em;
+	text-align: center;
+	&:hover {
+		background: $yellow;
+		color: #fff;
+	}
+}
+span.nav li {
+	width: 50%;
+}		
+
+
+.crImageAndTitleOuter, .startFundraiser {
+	display: none;
+}
+
+.landing-charity {
+	max-width: 100%;
+}
+
+#crDonateWidget_cfhio_cards4humanity {
+	width: 100% !important;
+}
+
+.gradientButton {
+	width: 100% !important;
+}
+
+#login-signup {
+	.overlay {
+		@extend .overlay;
+		background: rgba(0, 0, 0,.90);
+	}
+
+	.centered {
+    @include translate(0, -50%);
+		position: relative;
+		z-index: 2;
+		padding: 3em;
+		top: 50vh;
+		background: #fff;
+		margin: 0px auto;
+		max-width: 400px;
+		text-align: center;
+	}
+
+	h2 {
+		margin: 0 0 1em 0;
+	}
+
+	.btn {
+		margin: 0 0 10px 0;
+		width: 100%;
+	}
+
+	.input-group {
+		margin: 0 0 10px 0;
+		width: 100%;
+	}
+
+	.input-group-addon {
+		width: 40px;
+		background: $primary-color;
+		color: #fff;
+	}
+
+	.input-group-addon {
+		border: 1px solid $primary-color !important;
+	}
+
+}
+
+.login-separate {
+	position: relative;
+	margin: 15px 0;
+	&:before {
+    height: 1px;
+    background-color: $primary-color;
+    margin: 15px 0;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+	}
+
+	p {
+			display: table;
+			margin: 0 auto;
+			position: relative;
+			z-index: 1;
+			padding: 5px 15px 0 15px;
+			background: #fff;
+	}
+}
+
+.side_footer {
+		color: #fff;
+		width: 25%;
+		font-size: 11px;
+		z-index: 1000;
+		position: fixed;
+		left: 0px;
+		bottom: 0px;
+		padding: 10px;
+		text-align: center;
+}
+
+#social-share {
+	background: #fff;
+	margin: 0 0 10px 0;
+	padding: 10px;
+}

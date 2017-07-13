@@ -16,7 +16,9 @@ angular.module('mean.system')
                 method: 'POST',
                 data: $scope.user
             }).then(function(response) {
-                localStorage.token = response.data.token;
+                if (response.data.token !== undefined) {
+                    localStorage.token = response.data.token;
+                }
                 $location.path('/#!/app');
             }, function(error) {
                 alert(error.data);
