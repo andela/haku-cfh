@@ -16,7 +16,7 @@ module.exports = function (app, passport, auth) {
     // Donation Routes
     app.post('/donations', users.addDonation);
 
-    // Donations Route
+    // View Donations Route
     app.get('/api/donations', users.showDonations);
 
     app.post('/users/session', passport.authenticate('local', {

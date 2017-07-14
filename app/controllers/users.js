@@ -154,7 +154,7 @@ exports.addDonation = function(req, res) {
 
 exports.showDonations = (req, res) => {
   User.findOne({
-    _id: '596406299d997c0cd60e426a'
+    _id: '5963c78266a4c09602000001'
   })
   .limit(1)
   .exec((err, user) => {

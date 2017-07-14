@@ -20,6 +20,7 @@ angular.module('mean.system')
       .then(function(data) {
         $scope.avatars = data;
       });
+
     $scope.logout = function () {
         localStorage.removeItem('token');
         $http.get('/signout');

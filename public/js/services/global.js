@@ -32,6 +32,18 @@ angular.module('mean.system')
       }
     };
   }])
+  .factory('ShowDonationService', ['$http', '$q', function($http, $q) {
+    return {
+      userDonations: function(userID) {
+        return $q.all([
+          $http.get('/api/donations', userID)
+        ])
+        .then(function(results) {
+          console.log('donations', results);
+        });
+      }
+    };
+  }])
   .factory('MakeAWishFactsService', [function() {
     return {
       getMakeAWishFacts: function() {
