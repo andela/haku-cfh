@@ -1,27 +1,33 @@
-angular.module('mean.system')
-    .controller('RegisterController', ['$scope', '$http', '$location', 'Global', 'AvatarService', function ($scope, $http, $location, Global, AvatarService) {
-        "use strict";
-        $scope.global = Global;
-        $scope.avatars = [];
-        AvatarService.getAvatars()
-            .then(function (data) {
-                $scope.avatars = data;
-            });
+angular
+  .module('mean.system')
+  .controller('RegisterController', [
+    '$scope',
+    '$http',
+    '$location',
+    'Global',
+    'AvatarService',
+    ($scope, $http, $location, Global, AvatarService) => {
+      $scope.global = Global;
+      $scope.avatars = [];
+      AvatarService
+        .getAvatars()
+        .then((data) => {
+          $scope.avatars = data;
+        });
 
-        $scope.user = {};
+      $scope.user = {};
 
-        $scope.createUser = function() {
-            $http({
-                url: '/api/auth/signup',
-                method: 'POST',
-                data: $scope.user
-            }).then(function(response) {
-                if (response.data.token !== undefined) {
-                    localStorage.token = response.data.token;
-                }
-                $location.path('/#!/app');
-            }, function(error) {
-                alert(error.data);
-            });
-        };
-    }]);
+      $scope.createUser = () => {
+        $scope.errorMsg = '';
+        $http({ url: '/api/auth/signup', method: 'POST', data: $scope.user }).then((response) => {
+          if (response.data.token !== undefined) {
+            localStorage.token = response.data.token;
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            $location.path('/app');
+          }
+        }, (error) => {
+          $scope.errorMsg = error.data.message;
+        });
+      };
+    }
+  ]);

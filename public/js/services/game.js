@@ -24,6 +24,7 @@ angular.module('mean.system')
       gameOwnerId: null
     };
 
+    // console.log(game.state, game.gameWinner);
     const notificationQueue = [];
     let timeout = false;
     const self = this;
@@ -173,22 +174,27 @@ angular.module('mean.system')
           game.joinOverride = true;
         }, 15000);
       } else if (data.state === 'game dissolved' || data.state === 'game ended') {
-        const gamePlayers = [];
-        Object.keys(game.players).map(player => gamePlayers.push(game.players[player].username));
-        const gameWinner = game.players[game.gameWinner] || 'No winner';
-        const gameRound = game.round;
-        const gameId = game.gameID;
-        const gameOwner = gamePlayers[0];
-        const gameEnded = true;
-        const gameDetails = {
-          gameId,
-          gameRound,
-          gameOwner,
-          gameWinner,
-          gamePlayers,
-          gameEnded
-        };
-        $http.post(`/api/games/${game.gameID}/start`, gameDetails);
+        if (data.state !== 'game dissolved') {
+          const gamePlayers = [];
+          Object.keys(game.players).map(player => gamePlayers.push(game.players[player].username));
+          const gameWinner = game.players[game.gameWinner];
+          const gameRound = game.round;
+          const gameId = game.gameID;
+          const gameOwner = gamePlayers[0];
+          const gameEnded = true;
+          const gameDetails = {
+            gameId,
+            gameRound,
+            gameOwner,
+            gameWinner,
+            gamePlayers,
+            gameEnded
+          };
+
+          $http.post(`/api/games/${game.gameID}/start`, gameDetails);
+          $http({ url: `/api/games/${game.gameID}/start`, method: 'POST', data: gameDetails })
+          .then(f => f);
+        }
         game.players[game.playerIndex].hand = [];
         game.time = 0;
       }
@@ -202,7 +208,10 @@ angular.module('mean.system')
       mode = mode || 'joinGame';
       room = room || '';
       createPrivate = createPrivate || false;
-      $window.user = JSON.parse(localStorage.user);
+
+      if (localStorage.user) {
+        $window.user = JSON.parse(localStorage.user);
+      }
       const userID = $window.user ? $window.user._id : 'unauthenticated';
       socket.emit(mode, { userID, room, createPrivate });
     };
