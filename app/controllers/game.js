@@ -11,6 +11,7 @@ exports.saveGame = (req, res) => {
   game.gamePlayers = req.body.gamePlayers;
   game.gameEnded = req.body.gameEnded;
   game.gameStartTime = req.body.gameStartTime;
+
   game.save((err) => {
     if (err) {
       res.status(400).json(err);
