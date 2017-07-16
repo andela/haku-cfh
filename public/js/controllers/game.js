@@ -127,6 +127,7 @@ angular.module('mean.system')
 
     $scope.abandonGame = function() {
       game.leaveGame();
+      window.user = null;
       $location.path('/');
     };
 
