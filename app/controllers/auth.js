@@ -32,7 +32,7 @@ exports.signup = (req, res) => {
               message: 'An error occurred'
             });
           }
-          res.status(201).send({ token });
+          res.status(201).send({ token, user });
         });
       } catch (error) {
         return res.status(500).send({
@@ -68,7 +68,7 @@ exports.login = (req, res) => {
     // If a user is found
     try {
       token = user.generateToken();
-      return res.status(200).json({ token });
+      return res.status(200).json({ token, user });
     } catch (error) {
       return res.status(500).send({
         message: 'An error occurred'

@@ -16,6 +16,7 @@ angular
           .then((response) => {
             if (response.data.token !== undefined) {
               localStorage.token = response.data.token;
+              localStorage.user = JSON.stringify(response.data.user);
               $location.path('/app');
             }
           }, (error) => {
