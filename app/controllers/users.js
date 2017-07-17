@@ -240,3 +240,8 @@ exports.sendMail = (req, res) => {
     return res.jsonp({ invited: true });  
   });
 };
+
+exports.saveRegion = (req, res) => {
+  localStorage.setItem('region', req.body.player_region);
+};
+
