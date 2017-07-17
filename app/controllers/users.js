@@ -189,6 +189,13 @@ exports.user = function(req, res, next, id) {
     });
 };
 
+exports.search = (req, res) => {
+  User.find().exec((err, user) => {
+    res.jsonp(user);
+  });
+};
+
+
 // Search for a user by name
 exports.searchUser = (req, res) => {
   req.params.playerData = JSON.parse(req.params.playerData);

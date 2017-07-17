@@ -16,11 +16,11 @@
 
       <div id="loading-container">
         <div id="loading-gif"><img ng-src="../img/loader.gif"/></div>
-        <p><button class="invite" data-toggle="modal" data-target="#users-modal">
+        <p><button class="btn btn-secondary invite" data-toggle="modal" data-target="#users-modal">
          + Invite Players</button>
         </p>
 <!-- Send Invite Modal-->
-      <div id="users-modal" class="modal fade" role="dialog">
+      <div id="users-modal" class="modal fade text-black" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->
           <div class="modal-content">
@@ -31,12 +31,14 @@
             </div>
             <div class="modal-body">
               <input type="text" ng-keyup="searchUser()" ng-model="searchTerm"  placeholder="Search for users here..." class="col m9"/>&nbsp;
-              <li id="users" ng-repeat="user in users" >
-                <p ng-class="{'disabled': invitedUsers.includes(user.email)}">
-                  <input type="checkbox" id="{{ user.name }}" ng-model="user.selected" ng-click="countCheckedBox()" ng-disabled="checkedBoxCount > 10"  data-toggle="popover" data-content="Don't invite a country! You can only invite 11 players." data-placement="bottom" data-trigger="focus" title="Hey Emperor!"/>
-                  <label for="{{ user.name }}">{{ user.name }}</label>
-                </p>
-              </li>
+              <ul>
+                <li id="users" ng-repeat="user in users" >
+                  <p ng-class="{'disabled': invitedUsers.includes(user.email)}">
+                    <input type="checkbox" id="{{ user.name }}" ng-model="user.selected" ng-click="countCheckedBox()" ng-disabled="checkedBoxCount > 10"  data-toggle="popover" data-content="Don't invite a country! You can only invite 11 players." data-placement="bottom" data-trigger="focus" title="Hey Emperor!"/>
+                    <label for="{{ user.name }}">{{ user.name }}</label>
+                  </p>
+                </li>
+              </ul>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="sendMail()" style="background-color: #69d2e8; border:none; color: #fff;" ng-disabled="checkedBoxCount < 1">Invite</button>
@@ -54,7 +56,7 @@
     </div>
 
     <!-- POP up Modal -->
-  <div id="playerRequirement" class="modal fade" role="dialog">
+  <div id="playerRequirement" class="modal fade text-black" role="dialog">
     <div class="modal-dialog">
       <!-- Modal content-->
       <div class="modal-content">

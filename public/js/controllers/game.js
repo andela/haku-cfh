@@ -53,7 +53,7 @@ angular.module('mean.system')
         inviteSuccessful.find('.modal-body')
         .text("You can only invite 11 friends, not a country.");
         inviteSuccessful.modal('show');
-        }
+      }
     };
 
     $scope.sendMail = () => {
@@ -76,8 +76,7 @@ angular.module('mean.system')
     // Close invitation modal and show mail sent information
       const myModal = $('#users-modal');
       myModal.modal('hide');
-
-      // show successful modal when invitations sent out successfully
+    // show successful modal when invitations sent out successfully
       const inviteSuccessful = $('#playerRequirement');
       inviteSuccessful.find('.modal-body')
       .text("Invites sent to users' email");
@@ -177,7 +176,15 @@ angular.module('mean.system')
     };
 
     $scope.startGame = function() {
+      if ($scope.game.players.length < 3) {
+        const addPlayers = $('#playerRequirement');
+        addPlayers.find('.modal-body')
+        .text("Don't be stingy. You need at least 2 friends to play this game with you");
+        addPlayers.modal('show');
+      }
+      else{
       game.startGame();
+      }
     };
 
     $scope.abandonGame = function() {

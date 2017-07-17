@@ -872,3 +872,10 @@ body {
   text-transform: none !important; }
   .gradientButton .donateNow {
     border-top: 0px solid black !important; }
+
+li {
+  color: black;
+  list-style-type: none; }
+
+.text-black {
+  color: black !important; }
