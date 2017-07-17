@@ -1,10 +1,12 @@
 angular.module('mean.system')
-.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog) {
+.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog','$http', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $http) {
+    $scope.checkedBoxCount = 0;
     $scope.hasPickedCards = false;
     $scope.winningCardPicked = false;
     $scope.showTable = false;
     $scope.modalShown = false;
     $scope.game = game;
+    $scope.invitedUsers = [];
     $scope.pickedCards = [];
     var makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
     $scope.makeAWishFact = makeAWishFacts.pop();
@@ -28,6 +30,59 @@ angular.module('mean.system')
         }
       }
     };
+
+    $scope.searchUser = () => {
+      const playerName = (game.players[game.playerIndex].username);
+      const searchTerm = $scope.searchTerm || ' ';
+      const playerData = { name: playerName, searchTerm };
+      $http.get(`/api/search/users/${JSON.stringify(playerData)}/`)
+      .success((response) => {
+        $scope.users = response.filter((player) => {
+          return player.name !== playerName;
+        });
+      });
+    };
+
+    $scope.countCheckedBox = () => {
+      const userDetails = $scope.users.filter(user => (
+        user.selected
+      ));
+      $scope.checkedBoxCount = userDetails.length;
+      if ($scope.checkedBoxCount > 10) {
+        const inviteSuccessful = $('#playerRequirement');
+        inviteSuccessful.find('.modal-body')
+        .text("You can only invite 11 friends, not a country.");
+        inviteSuccessful.modal('show');
+        }
+    };
+
+    $scope.sendMail = () => {
+    const userDetails = $scope.users.filter(user => (
+    user.selected
+  ));
+    userDetails.forEach((name) => {
+      const details = JSON.stringify(
+        { name: name.name,
+          email: name.email,
+          url: `${encodeURIComponent(window.location.href)}` });
+      $http.get(`/api/sendmail/${details}`).then((response) => {
+        if(response.data.invited === true){
+          $scope.invitedUsers.push(name.email);
+        }
+      });
+    });
+    $scope.searchString = '';
+    $scope.users = '';
+    // Close invitation modal and show mail sent information
+      const myModal = $('#users-modal');
+      myModal.modal('hide');
+
+      // show successful modal when invitations sent out successfully
+      const inviteSuccessful = $('#playerRequirement');
+      inviteSuccessful.find('.modal-body')
+      .text("Invites sent to users' email");
+      inviteSuccessful.modal('show');
+  };
 
     $scope.pointerCursorStyle = function() {
       if ($scope.isCzar() && $scope.game.state === 'waiting for czar to decide') {
