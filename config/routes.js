@@ -98,4 +98,7 @@ module.exports = function (app, passport, auth) {
   app.post('/api/auth/signup', jwtCtrl.signup);
   app.post('/api/auth/login', jwtCtrl.login);
   app.post('/api/games/:id/start', gameDetails.saveGame);
+
+  // Route to get user's region
+  app.post('/region', users.saveRegion);
 };
