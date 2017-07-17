@@ -1,8 +1,6 @@
-<div id="question-container-inner" class="animate slideInRight">
+<div id="question-container-inner">
   <div class="card longBlack">
-    <span ng-bind-html="game.curQuestion.text" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' || game.state === 'awaiting players'"></span>
-    <button class="btn btn-donate" id="inviteFriendsBtn" ng-click="inviteFriends()" ng-show="showInviteFriendsButton">Invite Friends</button>
-    <span id="inviteFriendsMsg" style="color: orange"></span>
+    <span ng-bind-html-unsafe="game.curQuestion.text" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' || game.state === 'awaiting players'"></span>
     <div id="notifications" ng-if="game.notification" ng-animate="{enter:'animated fadeInLeft', leave:'animated fadeOut'}">{{game.notification}}</div>
     <br>
     <p>
@@ -10,19 +8,16 @@
     </p>
 
     <div id="startGame" ng-show="game.state === 'awaiting players'">
-      <div id="finding-players" class="q-header">Finding Players</div>
-      <div id="player-count-container" class="q-players">
+      <div id="finding-players">Finding Players</div>
+      <div id="player-count-container">
         <div id="player-count">{{game.players.length}} / 12 </div>
         <div id="the-word-players"> Player<span ng-if="game.players.length > 1">s</span> </div>
       </div>
-      <span id="loading-container">
-        <span id="loading-gif"><img class="q-spinner" ng-src="../img/loader.gif"/></span>
-      </span>
-      <button class="btn-donate q-btn" ng-click="findUsers()" ng-show="showFindUsersButton">Invite Players</button>
+      
       <div id="start-game-container" ng-click="startGame()" ng-show="(game.playerIndex === 0 || game.joinOverride) && game.players.length >= game.playerMinLimit">
-        <button id='start-game-button' class="animated bounce">
+        <div id='start-game-button'>
           Start Game</br>with {{game.players.length}} players
-        </button>
+        </div>
       </div>
     </div>
 
@@ -43,3 +38,4 @@
         That makes you a loser, unfortunately.
       </div>
     </div>
+  </div>
