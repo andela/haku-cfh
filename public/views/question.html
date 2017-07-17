@@ -13,8 +13,70 @@
         <div id="player-count">{{game.players.length}} / 12 </div>
         <div id="the-word-players"> Player<span ng-if="game.players.length > 1">s</span> </div>
       </div>
+
+      <div id="loading-container">
+        <div id="loading-gif"><img ng-src="../img/loader.gif"/></div>
+        <p><button class="btn btn-secondary invite" data-toggle="modal" data-target="#users-modal">
+         + Invite Players</button>
+        </p>
+<!-- Send Invite Modal-->
+      <div id="users-modal" class="modal fade text-black" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <span>
+              <h4 class="modal-title" style="color: #1982a5; display:inline">Send Invites</h4>
+           </span>
+            </div>
+            <div class="modal-body">
+              <input type="text" ng-keyup="searchUser()" ng-model="searchTerm"  placeholder="Search for users here..." class="col m9"/>&nbsp;
+              <ul>
+                <li id="users" ng-repeat="user in users" >
+                  <p ng-class="{'disabled': invitedUsers.includes(user.email)}">
+                    <input type="checkbox" id="{{ user.name }}" ng-model="user.selected" ng-click="countCheckedBox()" ng-disabled="checkedBoxCount > 10"  data-toggle="popover" data-content="Don't invite a country! You can only invite 11 players." data-placement="bottom" data-trigger="focus" title="Hey Emperor!"/>
+                    <label for="{{ user.name }}">{{ user.name }}</label>
+                  </p>
+                </li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="sendMail()" style="background-color: #69d2e8; border:none; color: #fff;" ng-disabled="checkedBoxCount < 1">Invite</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div>
+      <div id="start-game-container" ng-click="startGame()" ng-show="(game.playerIndex === 0 || game.joinOverride)">
+        <div id='start-game-button'>
+          Start Game</br>with {{game.players.length}} players
+        </div>
+      </div>
+    </div>
+
+    <!-- POP up Modal -->
+  <div id="playerRequirement" class="modal fade text-black" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;
+          </button>
+          <h4 class="modal-title">Cards for humanity</h4>
+        </div>
+        <div class="modal-body">
+          <p></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
       
-      <div id="start-game-container" ng-click="startGame()" ng-show="(game.playerIndex === 0 || game.joinOverride) && game.players.length >= game.playerMinLimit">
+      <div id="start-game-container" ng-click="startGame()" ng-show="(game.playerIndex === 0 || game.joinOverride)">
         <div id='start-game-button'>
           Start Game</br>with {{game.players.length}} players
         </div>
