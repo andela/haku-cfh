@@ -64,6 +64,7 @@ $(document).ready(function() {
               <span ng-show="showOptions">
                  <p>*To send a private link to your friends, <a href="/signup">sign up!</a></p>
                </span>
+               <button class="btn btn-secondary" data-toggle="modal" data-target="#select-region">Play Game</button>
                <span ng-hide="showOptions">
                  <a href="/play"><div id="sign-up-btn-landing">Play Game with Strangers</div></a>
                  <a href="/play?custom"><div id="sign-up-btn-landing">Play Game with Friends</div></a>
@@ -85,7 +86,7 @@ $(document).ready(function() {
                        </span>
                      </span>
                </span>
-            </div>
+            </button>
           </div>
         </div>
       </section>
@@ -175,3 +176,28 @@ $(document).ready(function() {
   </div>
 </div>
 
+<div id="select-region" class="modal fade" role="dialog" ng-controller="IndexController">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <span>
+              <h4 class="modal-title" style="color: #1982a5; display:inline">Select region</h4>
+           </span>
+            </div>
+            <div class="modal-body">
+              <select ng-model="region" class="form-control">
+                  <option value="NG">Nigeria</option>
+                  <option value="USA">USA</option>
+                  <option value="UK">United Kingdom</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="playAsAGuest()" style="background-color: #69d2e8; border:none; color: #fff;" >Play As A Guest</button>
+              <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="playWithFriends()" style="background-color: #69d2e8; border:none; color: #fff;" >Play With Friends</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
