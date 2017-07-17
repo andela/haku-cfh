@@ -212,7 +212,13 @@ exports.sendMail = (req, res) => {
   const subject = `You've been served!`;
   const url = decodeURIComponent(email.url);
   const html = `
-    <h5>Wad up??</h5>
+    <h5>Wad Up?</h5>
+    <p>One of your horrible friends desperately trying to do good has invited you to play Card For Humanity (CFH). </p>
+    <p>Cards for Humanity is a fast-paced online version of the popular card game, Cards Against Humanity, that gives you the opportunity to donate to children in need - all while remaining as despicable and awkward as you naturally are.</p><br />
+    <p>Your friends are waiting! <a href="${url}">
+      Get in the game now.</a></p>
+      <p>Copyright &copy; 2017
+      <a href="https://haku-cfh-staging.herokuapp.com">HAKU CFH</a>
   `;
   const content = new helper.Content('text/html', html);
   const mail = new helper.Mail(fromEmail, subject, toEmail, content);
