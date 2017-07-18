@@ -193,6 +193,22 @@ angular.module('mean.system')
       $location.path('/');
     };
 
+    $scope.shuffleCards = () => {
+      const card = $(`#${event.target.id}`);
+      card.addClass('animated flipOutY');
+      setTimeout(() => {
+        $scope.startNextRound();
+        card.removeClass('animated flipOutY');
+        $('#shuffleModal').modal('hide');
+      }, 500);
+    };
+
+    $scope.startNextRound = () => {
+      if ($scope.isCzar()) {
+        game.startNextRound();
+      }
+    };
+
     // Catches changes to round to update when no players pick card
     // (because game.state remains the same)
     $scope.$watch('game.round', function() {
@@ -211,6 +227,26 @@ angular.module('mean.system')
       if (game.state === 'waiting for czar to decide' && $scope.showTable === false) {
         $scope.showTable = true;
       }
+      if ($scope.isCzar() && game.state === 'czar pick card' && game.table.length === 0) {
+        $('#shuffleModal').modal({
+          dismissible: false
+        });
+        $('#shuffleModal').modal('open');
+      }
+      if (game.state === 'game dissolved') {
+        $('#shuffleModal').modal('close');
+      }
+      if ($scope.isCzar() === false && game.state === 'czar pick card'
+        && game.state !== 'game dissolved'
+        && game.state !== 'awaiting players' && game.table.length === 0) {
+        $scope.czarHasDrawn = 'Wait! Czar is drawing Card';
+      }
+      if (game.state !== 'czar pick card'
+        && game.state !== 'awaiting players'
+        && game.state !== 'game dissolve') {
+        $scope.czarHasDrawn = '';
+      }
+
     });
 
     $scope.$watch('game.gameID', function() {
