@@ -1,4 +1,15 @@
-$main-font: "helvetica neue", helvetica, sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i');
+$main-font: "Roboto";
+
+$primary-color: #eb3f3a;
+$orange: #ee4d2f;
+$yellow: #fca037;
+$light-orange: #f3773b;
+$bgDefault      : #ee4d2f;
+$bgHighlight    : #ffffff;
+$colDefault     : #ffffff;
+$colHighlight   : #ee4d2f;
+$dropDown       : false;
 
 $mq-mobile-portrait : 320px !default;
 $mq-mobile-landscape : 520px !default;
@@ -291,6 +302,7 @@ background-image: linear-gradient(to bottom right, #0B394E 0%, #ABCE8D 100%);
     cursor: pointer;
 }
 
+
 .card {
     position: relative;
 
@@ -336,13 +348,14 @@ background-image: linear-gradient(to bottom right, #0B394E 0%, #ABCE8D 100%);
     }
 
     &.longBlack {
-        background: #252525;
-        border-color: white;
+        background: rgba(0, 0, 0, .8);
+        border: 1px solid rgba(238, 77, 47, .5);
         color: white;
         height: 100%;
         width: 35.5em;
         padding-left: 2%;
         padding-right: 2%;
+        border-radius: 0;
     }
 
     &.smallest {
@@ -389,25 +402,27 @@ html, body, .main-container, .cont, #first-section, #inner-container{
 html{
     // margin: 20px;
     // margin-top: 5px;
-    // background: url(/img/minimal-wallpaper.jpg) no-repeat center center fixed;
-    // -webkit-background-size: cover;
-    // -moz-background-size: cover;
-    // -o-background-size: cover;
-    // background-size: cover;
-    @include gradient-bg;
+    background-image: url('../img/cfh-bg1.jpg');
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
     position: relative;
+    
 
     @include mobile-only{
         //margin: 3px;
         margin-top: 0px;
     }
 }
-body{
+body {
     font-family: $main-font;
     background: transparent;
     margin: 10px;
+    
 
     @include tablet-portrait-only{
         margin: 5px;
@@ -433,15 +448,14 @@ body{
     height: 100%;
     #app-container {
         height: 100%;
-        max-width: 1200px;
         margin: 0px auto;
         position: relative;
 
         #menu-container{
             width: 100%;
-            -webkit-border-radius: 8px;
-            -moz-border-radius: 8px;
-            border-radius: 8px;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
             background: #252525;
             margin-bottom: 10px;
             margin-top: 5px;
@@ -456,7 +470,11 @@ body{
                 display: inline-block;
                 margin-left: 10px;
                 font-size: 28px;
-                font-family: 'Lobster', cursive;
+                font-family: $main-font, 'Lobster', cursive;
+
+                &:hover {
+                    color: white;
+                }
 
                 @include mobile-only{
                     font-size: 20px;
@@ -475,9 +493,13 @@ body{
                 }
             }
 
+            .navbar-brand:hover {
+                color: white;
+            }
+
             #abandon-game-button{
                 display: inline-block;
-                float:right;
+                float: right;
                 border-radius: 8px;
                 -moz-border-radius: 8px;
                 -webkit-border-radius: 8px;
@@ -654,7 +676,7 @@ body{
                         #player-name{
 
                             h4{
-                                font-family: 'Lobster', cursive;
+                                font-family: $main-font, 'Lobster', cursive;
                                 margin-bottom: 0px;
                             }
                             h4{
@@ -810,11 +832,16 @@ body{
                             background: #FFF;
                             text-shadow: none;
                             cursor: default;
-                            border: none;
+                            border: 1px solid rgba(238, 77, 47, .5);
                             min-width: 85px;
                             min-height: 85px;
                             height: 100%;
                             color: #000;
+                            -webkit-border-radius: 0;
+                            -moz-border-radius: 0;
+                            -ms-border-radius: 0;
+                            -o-border-radius: 0;
+                            border-radius: 0;
 
                             #timer-status-round, #timer-status-czar-choosing{
                                 position: absolute;
@@ -823,6 +850,9 @@ body{
                                 padding-top: 5px;
                                 padding-bottom: 8px;
                                 bottom: 0;
+                                font-family: $main-font;
+
+
 
                                 @include tablet-landscape-and-below{
                                     font-size: 13px;
@@ -834,7 +864,7 @@ body{
                             }
 
                             #time{
-                                font-family: 'Lobster', cursive;
+                                font-family: $main-font, 'Lobster', cursive;
                                 font-size: 110px;
                                 position: absolute;
                                 bottom: 25%;
@@ -895,6 +925,7 @@ body{
                                     font-size: 33px;
                                     text-align: center;
                                     margin-top: 15px;
+                                    font-family: $main-font;
 
                                     @include mobile-only{
                                         font-size: 21px;
@@ -911,6 +942,7 @@ body{
                                 #player-count-container{
                                     #player-count{
                                         font-size: 33px;
+                                        font-family: $main-font;
 
                                         @include mobile-only{
                                             font-size: 21px;
@@ -918,6 +950,7 @@ body{
                                     }
                                     #the-word-players{
                                         font-size: 17px;
+                                        font-family: $main-font;
                                     }
                                 }
 
@@ -933,14 +966,14 @@ body{
                                     color: #333;
 
                                     #start-game-button{
-                                        border-radius: 8px;
-                                        -moz-border-radius: 5px;
-                                        -webkit-border-radius: 5px;
+                                        border-radius: 0;
+                                        -moz-border-radius: 0;
+                                        -webkit-border-radius: 0;
                                         font-size: 20px;
                                         font-size: 1.25rem;
                                         font-weight: 400;
                                         color: white;
-                                        background: #1F959C;
+                                        background: $orange;
                                         padding: 0.65em 20px;
                                         margin: 10px;
                                         width: 65%;
@@ -958,7 +991,7 @@ body{
                                     }
 
                                     #start-game-button:hover{
-                                       background:#41C2CA;
+                                       background: $light-orange;
                                     }
                                 }
                             }
@@ -987,13 +1020,15 @@ body{
             }
             #info-container{
                 width: 100%;
-                background: #252525;
+                background: rgba(238, 77, 47, .9);
                 color: white;
                 @include br;
                 text-align: center;
                 padding: 15px;
                 height: 50%;
                 margin-top: 10px;
+                border-radius: 0;
+
 
                 @include tablet-portrait-only{
                     padding-top: 5px;
@@ -1029,6 +1064,7 @@ body{
                         li{
                             list-style-type: decimal;
                             margin-bottom: 5px;
+                            color: white;
                         }
 
                         @include mobile-only{
@@ -1041,12 +1077,13 @@ body{
 
             #game-end-container{
                 width: 100%;
-                background: #252525;
+                background: rgba(238, 77, 47, .9);
                 @include br;
                 text-align: center;
                 overflow: hidden;
                 height: 50%;
                 margin-top: 10px;
+                border-radius: 0;
 
                 @include mobile-only{
                     height: 65%;
@@ -1104,6 +1141,7 @@ body{
                             font-size: 21px;
                             line-height: 155%;
                             padding-top: 5%;
+                            border-radius: 0;
 
                              &:hover{
                                 @include button-hover-smaller;
@@ -1119,6 +1157,7 @@ body{
                             font-size: 21px;
                             line-height: 155%;
                             padding-top: 5%;
+                            border-radius: 0;
 
                              &:hover{
                                 @include button-hover-smaller;
@@ -1132,8 +1171,8 @@ body{
             #czar-blank-container{
                 color: white;
                 width: 100%;
-                background: #252525;
-                @include br;
+                background: rgba(238, 77, 47, .9);
+                border-radius: 0;
                 text-align: center;
                 overflow: hidden;
                 height: 50%;
@@ -1224,9 +1263,10 @@ body{
 
             #cards-container{
                 width: 100%;
-                background: #252525;
+                background: rgba(238, 77, 47, .7);
                 margin-top: 11px;
-                @include br;
+                border-radius: 0;
+                
 
                 @include mobile-only{
                     background: transparent;
@@ -1326,6 +1366,7 @@ body{
     }
 }
 
+
 li {
   color: black;
   list-style-type: none;
@@ -1335,3 +1376,126 @@ li {
     color: black !important;
 }
 
+.twitter-button {
+    margin-right: 20px;
+    margin-top: 15px;
+}
+#main-container #app-container #social-bar-container #player-container {
+    border-radius: 0;
+}
+
+@media (max-width: 768px) {
+  .pull-right{
+      float: left !important;
+  }
+  .links {
+      display: flex;
+      margin-left: 35%;
+  }
+}
+
+// Bootstrap color theme edit
+.navbar-default {
+  background-color: $bgDefault;
+  border-color: $bgHighlight;
+  .navbar-brand {
+    color: $colDefault;
+    &:hover, &:focus {
+      color: $colHighlight; }}
+  .navbar-text {
+    color: $colDefault; }
+  .navbar-nav {
+    > li {
+      > a {
+        color: $colDefault;
+        &:hover,  &:focus {
+          color: $colHighlight; }}
+      @if $dropDown {
+        > .dropdown-menu {
+          background-color: $bgDefault;
+          > li {
+            > a {
+              color: $colDefault;
+              &:hover,  &:focus {
+                color: $colHighlight;
+                background-color: $bgHighlight; }}
+            &.divider {
+              background-color: $bgHighlight;}}}}}
+    @if $dropDown {
+      .open .dropdown-menu > .active {
+        > a, > a:hover, > a:focus {
+          color: $colHighlight;
+          background-color: $bgHighlight; }}}
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight; }}
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight; }}}
+  .navbar-toggle {
+    border-color: $bgHighlight;
+    &:hover, &:focus {
+      background-color: $bgHighlight; }
+    .icon-bar {
+      background-color: $colDefault; }}
+  .navbar-collapse,
+  .navbar-form {
+    border-color: $colDefault; }
+  .navbar-link {
+    color: $colDefault;
+    &:hover {
+      color: $colHighlight; }}}
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu {
+    > li > a {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight; }}
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight; }}}
+}
+
+
+.navbar-default {
+    border: none;
+    width: 100% !important;
+}
+
+.btn-neutral {
+    background-color: rgba(0, 0, 0, .6);
+    border: 1px solid white;
+    color: white;
+    border-radius: 0px;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+
+    &:hover {
+        color: white;
+    }
+}
+.invite {
+    background: rgba(238, 77, 47, .8);
+    border-radius: 0;
+    color: white;
+    margin-top: 10%;
+
+    &:hover {
+        color: white;
+        background: rgba(238, 77, 47, 1)
+    }
+}
+
+#game-end-info {
+    color: white;
+    z-index: 1;
+}
