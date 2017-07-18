@@ -9,6 +9,9 @@ module.exports = function (app, passport, auth) {
   app.get('/chooseavatars', users.checkAvatar);
   app.get('/signout', users.signout);
 
+  app.get('/api/search/users/:playerData', users.searchUser);
+  app.get('/api/sendmail/:email', users.sendMail);
+
     // Setting up the users api
   app.post('/users', users.create);
   app.post('/users/avatars', users.avatars);
@@ -107,4 +110,7 @@ module.exports = function (app, passport, auth) {
   app.post('/api/auth/signup', jwtCtrl.signup);
   app.post('/api/auth/login', jwtCtrl.login);
   app.post('/api/games/:id/start', gameDetails.saveGame);
+
+  // Route to get user's region
+  app.post('/region', users.saveRegion);
 };

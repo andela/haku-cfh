@@ -1,6 +1,12 @@
 angular.module('mean.system')
-.controller('IndexController', ['$scope', '$http', 'Global', '$location', 'socket', 'game', 'AvatarService', function ($scope, $http, Global, $location, socket, game, AvatarService) {
+.controller('IndexController', ['$scope', '$http', 'Global', '$location', '$window', 'socket', 'game', 'AvatarService', function ($scope, $http, Global, $location, $window, socket, game, AvatarService) {
     $scope.global = Global;
+    
+    if (localStorage.token) {
+        $scope.global.authenticated = true;
+      } else {
+        $scope.global.authenticated = false;
+      }
 
     $scope.playAsGuest = function() {
       game.joinGame();
@@ -27,5 +33,23 @@ angular.module('mean.system')
         $http.get('/signout');
         $location.path('/');
     };
+
+    $scope.playWithFriends = function() {
+      $scope.data = { player_region: $scope.region };
+      $http.post('/region', $scope.data)
+       .success(function (data) {
+         
+       });
+       $window.location.href = '/play?custom';
+      }
+
+      $scope.playAsAGuest = function() {
+        $scope.data = { player_region: $scope.region };
+        $http.post('/region', $scope.data)
+        .success(function (data) {
+         
+        });
+         $window.location.href = '/play';
+      }
 
 }]);

@@ -27,7 +27,7 @@ function Game(gameID, io) {
   this.winnerAutopicked = false;
   this.czar = -1; // Index in this.players
   this.playerMinLimit = 3;
-  this.playerMaxLimit = 6;
+  this.playerMaxLimit = 12;
   this.pointLimit = 5;
   this.state = "awaiting players";
   this.round = 0;
@@ -61,7 +61,8 @@ Game.prototype.payload = function() {
       avatar: player.avatar,
       premium: player.premium,
       socketID: player.socket.id,
-      color: player.color
+      color: player.color,
+      userID: player.userID,
     });
   });
   return {
@@ -125,8 +126,20 @@ Game.prototype.prepareGame = function() {
       if (err) {
         console.log(err);
       }
-      self.questions = results[0];
-      self.answers = results[1];
+      if (localStorage.getItem('player_region')) {
+       if (localStorage.getItem('player_region') !== '') {
+         const newQuestion = results[0].filter(result => (result.region === localStorage.getItem('player_region')));
+         const newAnswers = results[1].filter(result => (result.region === localStorage.getItem('player_region')));
+         self.questions = newQuestion;
+         self.answers = newAnswers;
+       } else {
+         self.questions = results[0];
+         self.answers = results[1];
+       }
+     } else {
+           self.questions = results[0];
+           self.answers = results[1];
+         }
 
       self.startGame();
     });
@@ -136,7 +149,8 @@ Game.prototype.startGame = function() {
   console.log(this.gameID,this.state);
   this.shuffleCards(this.questions);
   this.shuffleCards(this.answers);
-  this.stateChoosing(this);
+  this.changeCzar(this);
+  this.sendUpdate();
 };
 
 Game.prototype.sendUpdate = function() {
@@ -158,12 +172,6 @@ Game.prototype.stateChoosing = function(self) {
   }
   self.round++;
   self.dealAnswers();
-  // Rotate card czar
-  if (self.czar >= self.players.length - 1) {
-    self.czar = 0;
-  } else {
-    self.czar++;
-  }
   self.sendUpdate();
 
   self.choosingTimeout = setTimeout(function() {
@@ -216,7 +224,7 @@ Game.prototype.stateResults = function(self) {
     if (winner !== -1) {
       self.stateEndGame(winner);
     } else {
-      self.stateChoosing(self);
+      self.changeCzar(self);
     }
   }, self.timeLimits.stateResults*1000);
 };
@@ -422,6 +430,26 @@ Game.prototype.killGame = function() {
   clearTimeout(this.resultsTimeout);
   clearTimeout(this.choosingTimeout);
   clearTimeout(this.judgingTimeout);
+};
+
+Game.prototype.changeCzar = (self) => {
+  self.state = 'czar pick card';
+  self.table = [];
+  if (self.czar >= self.players.length - 1) {
+    self.czar = 0;
+  } else {
+    self.czar += 1;
+  }
+  self.sendUpdate();
+};
+
+
+Game.prototype.startNextRound = (self) => {
+  if (self.state === 'czar pick card') {
+    self.stateChoosing(self);
+  } else if (self.state === 'czar left game') {
+    self.changeCzar(self);
+  }
 };
 
 module.exports = Game;

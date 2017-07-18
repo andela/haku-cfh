@@ -5,6 +5,8 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User'),
   Game = mongoose.model('Game');
 var avatars = require('./avatars').all();
+const helper = require('sendgrid').mail;
+const sg = require('sendgrid') (process.env.SENDGRID_API_KEY);
 
 /**
  * Auth callback
@@ -279,3 +281,60 @@ exports.user = function(req, res, next, id) {
       next();
     });
 };
+
+exports.search = (req, res) => {
+  User.find().exec((err, user) => {
+    res.jsonp(user);
+  });
+};
+
+
+// Search for a user by name
+exports.searchUser = (req, res) => {
+  req.params.playerData = JSON.parse(req.params.playerData);
+  const searchTerm = req.params.playerData.searchTerm;
+  const username = req.params.playerData.name;
+  User.find({
+    name: { $regex: `^${searchTerm}`, $options: 'i' }
+  }).exec((err, user) => {
+    if (err) return res.jsonp({ error: '403' });
+    if (!user) return res.jsonp({ error: '404' });
+    res.jsonp(user);
+  }
+  );
+};
+
+// Send mail to selected users
+exports.sendMail = (req, res) => {
+  const email = JSON.parse(req.params.email);
+  const fromEmail = new helper.Email('haku-cfh@andela.com');
+  const toEmail = new helper.Email(email.email);
+  const subject = `You've been served!`;
+  const url = decodeURIComponent(email.url);
+  const html = `
+    <h5>Wad Up?</h5>
+    <p>One of your horrible friends desperately trying to do good has invited you to play Card For Humanity (CFH). </p>
+    <p>Cards for Humanity is a fast-paced online version of the popular card game, Cards Against Humanity, that gives you the opportunity to donate to children in need - all while remaining as despicable and awkward as you naturally are.</p><br />
+    <p>Your friends are waiting! <a href="${url}">
+      Get in the game now.</a></p>
+      <p>Copyright &copy; 2017
+      <a href="https://haku-cfh-staging.herokuapp.com">HAKU CFH</a>
+  `;
+  const content = new helper.Content('text/html', html);
+  const mail = new helper.Mail(fromEmail, subject, toEmail, content);
+  const request = sg.emptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: mail.toJSON()
+  });
+
+  sg.API(request, (error, response) => {
+    if (error) return res.jsonp(error);
+    return res.jsonp({ invited: true });  
+  });
+};
+
+exports.saveRegion = (req, res) => {
+  localStorage.setItem('region', req.body.player_region);
+};
+

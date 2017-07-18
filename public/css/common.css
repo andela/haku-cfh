@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i");
 .card {
   position: relative;
   display: inline-block;
@@ -30,13 +31,14 @@
     border-color: white;
     color: white; }
   .card.longBlack {
-    background: #252525;
-    border-color: white;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(238, 77, 47, 0.5);
     color: white;
     height: 100%;
     width: 35.5em;
     padding-left: 2%;
-    padding-right: 2%; }
+    padding-right: 2%;
+    border-radius: 0; }
   .card.smallest {
     font-size: 0.750em; }
     @media (max-width: 520px) {
@@ -65,18 +67,12 @@ html, body, .main-container, .cont, #first-section, #inner-container {
   height: 100%; }
 
 html {
-  /* IE10 Consumer Preview */
-  background-image: -ms-linear-gradient(top left, #0B394E 0%, #ABCE8D 100%);
-  /* Mozilla Firefox */
-  background-image: -moz-linear-gradient(top left, #0B394E 0%, #ABCE8D 100%);
-  /* Opera */
-  background-image: -o-linear-gradient(top left, #0B394E 0%, #ABCE8D 100%);
-  /* Webkit (Safari/Chrome 10) */
-  background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #0B394E), color-stop(1, #ABCE8D));
-  /* Webkit (Chrome 11+) */
-  background-image: -webkit-linear-gradient(top left, #0B394E 0%, #ABCE8D 100%);
-  /* W3C Markup, IE10 Release Preview */
-  background-image: linear-gradient(to bottom right, #0B394E 0%, #ABCE8D 100%);
+  background-image: url("../img/cfh-bg1.jpg");
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
   position: relative; }
@@ -85,7 +81,7 @@ html {
       margin-top: 0px; } }
 
 body {
-  font-family: "helvetica neue", helvetica, sans-serif;
+  font-family: "Roboto";
   background: transparent;
   margin: 10px; }
   @media only screen and (min-width: 521px) and (max-width: 768px) {
@@ -103,18 +99,22 @@ body {
   margin-top: 50px;
   width: 70%; }
 
+.dashboard_bg {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px; }
+
 #main-container {
   height: 100%; }
   #main-container #app-container {
     height: 100%;
-    max-width: 1200px;
     margin: 0px auto;
     position: relative; }
     #main-container #app-container #menu-container {
       width: 100%;
-      -webkit-border-radius: 8px;
-      -moz-border-radius: 8px;
-      border-radius: 8px;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
       background: #252525;
       margin-bottom: 10px;
       margin-top: 5px;
@@ -127,7 +127,9 @@ body {
         display: inline-block;
         margin-left: 10px;
         font-size: 28px;
-        font-family: 'Lobster', cursive; }
+        font-family: "Roboto", "Lobster", cursive; }
+        #main-container #app-container #menu-container #logo:hover {
+          color: white; }
         @media (max-width: 520px) {
           #main-container #app-container #menu-container #logo {
             font-size: 20px; } }
@@ -137,6 +139,8 @@ body {
           color: #FFFFA5; }
         #main-container #app-container #menu-container #logo #third-word {
           color: #FC575E; }
+      #main-container #app-container #menu-container .navbar-brand:hover {
+        color: white; }
       #main-container #app-container #menu-container #abandon-game-button {
         display: inline-block;
         float: right;
@@ -283,7 +287,7 @@ body {
                 height: 100%;
                 width: 60%; } }
             #main-container #app-container #social-bar-container #player-container #above-czar-container #player-container-inner #player-name h4 {
-              font-family: 'Lobster', cursive;
+              font-family: "Roboto", "Lobster", cursive;
               margin-bottom: 0px; }
             @media only screen and (min-width: 521px) and (max-width: 768px) {
               #main-container #app-container #social-bar-container #player-container #above-czar-container #player-container-inner #player-name h4 {
@@ -427,18 +431,24 @@ body {
               background: #FFF;
               text-shadow: none;
               cursor: default;
-              border: none;
+              border: 1px solid rgba(238, 77, 47, 0.5);
               min-width: 85px;
               min-height: 85px;
               height: 100%;
-              color: #000; }
+              color: #000;
+              -webkit-border-radius: 0;
+              -moz-border-radius: 0;
+              -ms-border-radius: 0;
+              -o-border-radius: 0;
+              border-radius: 0; }
               #main-container #app-container #gameplay-container #upper-gameplay-container #menu-timeremaining-container #timer-container #inner-timer-container #timer-status-round, #main-container #app-container #gameplay-container #upper-gameplay-container #menu-timeremaining-container #timer-container #inner-timer-container #timer-status-czar-choosing {
                 position: absolute;
                 left: 0;
                 right: 0;
                 padding-top: 5px;
                 padding-bottom: 8px;
-                bottom: 0; }
+                bottom: 0;
+                font-family: "Roboto"; }
                 @media only screen and (max-width: 1024px) {
                   #main-container #app-container #gameplay-container #upper-gameplay-container #menu-timeremaining-container #timer-container #inner-timer-container #timer-status-round, #main-container #app-container #gameplay-container #upper-gameplay-container #menu-timeremaining-container #timer-container #inner-timer-container #timer-status-czar-choosing {
                     font-size: 13px; } }
@@ -446,7 +456,7 @@ body {
                   #main-container #app-container #gameplay-container #upper-gameplay-container #menu-timeremaining-container #timer-container #inner-timer-container #timer-status-round, #main-container #app-container #gameplay-container #upper-gameplay-container #menu-timeremaining-container #timer-container #inner-timer-container #timer-status-czar-choosing {
                     font-size: 12px; } }
               #main-container #app-container #gameplay-container #upper-gameplay-container #menu-timeremaining-container #timer-container #inner-timer-container #time {
-                font-family: 'Lobster', cursive;
+                font-family: "Roboto", "Lobster", cursive;
                 font-size: 110px;
                 position: absolute;
                 bottom: 25%;
@@ -492,7 +502,8 @@ body {
                 #main-container #app-container #gameplay-container #upper-gameplay-container #question-container-outer #question-container-inner .card #startGame #finding-players {
                   font-size: 33px;
                   text-align: center;
-                  margin-top: 15px; }
+                  margin-top: 15px;
+                  font-family: "Roboto"; }
                   @media (max-width: 520px) {
                     #main-container #app-container #gameplay-container #upper-gameplay-container #question-container-outer #question-container-inner .card #startGame #finding-players {
                       font-size: 21px;
@@ -502,12 +513,14 @@ body {
                   float: left;
                   text-align: center; }
                 #main-container #app-container #gameplay-container #upper-gameplay-container #question-container-outer #question-container-inner .card #startGame #player-count-container #player-count {
-                  font-size: 33px; }
+                  font-size: 33px;
+                  font-family: "Roboto"; }
                   @media (max-width: 520px) {
                     #main-container #app-container #gameplay-container #upper-gameplay-container #question-container-outer #question-container-inner .card #startGame #player-count-container #player-count {
                       font-size: 21px; } }
                 #main-container #app-container #gameplay-container #upper-gameplay-container #question-container-outer #question-container-inner .card #startGame #player-count-container #the-word-players {
-                  font-size: 17px; }
+                  font-size: 17px;
+                  font-family: "Roboto"; }
                 #main-container #app-container #gameplay-container #upper-gameplay-container #question-container-outer #question-container-inner .card #startGame #loading-gif {
                   margin: 20px; }
                   @media (max-width: 520px) {
@@ -516,14 +529,14 @@ body {
                 #main-container #app-container #gameplay-container #upper-gameplay-container #question-container-outer #question-container-inner .card #startGame #start-game-container {
                   color: #333; }
                   #main-container #app-container #gameplay-container #upper-gameplay-container #question-container-outer #question-container-inner .card #startGame #start-game-container #start-game-button {
-                    border-radius: 8px;
-                    -moz-border-radius: 5px;
-                    -webkit-border-radius: 5px;
+                    border-radius: 0;
+                    -moz-border-radius: 0;
+                    -webkit-border-radius: 0;
                     font-size: 20px;
                     font-size: 1.25rem;
                     font-weight: 400;
                     color: white;
-                    background: #1F959C;
+                    background: #ee4d2f;
                     padding: 0.65em 20px;
                     margin: 10px;
                     width: 65%;
@@ -537,7 +550,7 @@ body {
                         padding: 0.65em 1px;
                         font-size: 1rem; } }
                   #main-container #app-container #gameplay-container #upper-gameplay-container #question-container-outer #question-container-inner .card #startGame #start-game-container #start-game-button:hover {
-                    background: #41C2CA; }
+                    background: #f3773b; }
               #main-container #app-container #gameplay-container #upper-gameplay-container #question-container-outer #question-container-inner .card #game-end-info {
                 text-align: center;
                 font-size: 16px; }
@@ -552,7 +565,7 @@ body {
                       font-size: 18px; } }
       #main-container #app-container #gameplay-container #info-container {
         width: 100%;
-        background: #252525;
+        background: rgba(238, 77, 47, 0.9);
         color: white;
         -webkit-border-radius: 8px;
         -moz-border-radius: 8px;
@@ -560,7 +573,8 @@ body {
         text-align: center;
         padding: 15px;
         height: 50%;
-        margin-top: 10px; }
+        margin-top: 10px;
+        border-radius: 0; }
         @media only screen and (min-width: 521px) and (max-width: 768px) {
           #main-container #app-container #gameplay-container #info-container {
             padding-top: 5px;
@@ -582,26 +596,28 @@ body {
                 font-size: 14px; } }
           #main-container #app-container #gameplay-container #info-container #inner-info ol {
             margin-top: 10px;
-            font-family: "helvetica neue", helvetica, sans-serif;
+            font-family: "Roboto";
             text-align: left;
             font-size: 17px; }
             #main-container #app-container #gameplay-container #info-container #inner-info ol li {
               list-style-type: decimal;
-              margin-bottom: 5px; }
+              margin-bottom: 5px;
+              color: white; }
             @media (max-width: 520px) {
               #main-container #app-container #gameplay-container #info-container #inner-info ol {
                 font-size: 13px;
                 padding: 0px 10px 10px 10px; } }
       #main-container #app-container #gameplay-container #game-end-container {
         width: 100%;
-        background: #252525;
+        background: rgba(238, 77, 47, 0.9);
         -webkit-border-radius: 8px;
         -moz-border-radius: 8px;
         border-radius: 8px;
         text-align: center;
         overflow: hidden;
         height: 50%;
-        margin-top: 10px; }
+        margin-top: 10px;
+        border-radius: 0; }
         @media (max-width: 520px) {
           #main-container #app-container #gameplay-container #game-end-container {
             height: 65%; } }
@@ -672,7 +688,8 @@ body {
               height: 28%;
               font-size: 21px;
               line-height: 155%;
-              padding-top: 5%; }
+              padding-top: 5%;
+              border-radius: 0; }
               #main-container #app-container #gameplay-container #game-end-container #inner-info-exit #inner-text-container #join-new-game:hover {
                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0f0f0), color-stop(1, #ededed));
                 background: -moz-linear-gradient(center top, #f0f0f0 5%, #ededed 100%);
@@ -714,7 +731,8 @@ body {
               height: 28%;
               font-size: 21px;
               line-height: 155%;
-              padding-top: 5%; }
+              padding-top: 5%;
+              border-radius: 0; }
               #main-container #app-container #gameplay-container #game-end-container #inner-info-exit #inner-text-container #exit-match:hover {
                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0f0f0), color-stop(1, #ededed));
                 background: -moz-linear-gradient(center top, #f0f0f0 5%, #ededed 100%);
@@ -724,10 +742,8 @@ body {
       #main-container #app-container #gameplay-container #czar-blank-container {
         color: white;
         width: 100%;
-        background: #252525;
-        -webkit-border-radius: 8px;
-        -moz-border-radius: 8px;
-        border-radius: 8px;
+        background: rgba(238, 77, 47, 0.9);
+        border-radius: 0;
         text-align: center;
         overflow: hidden;
         height: 50%;
@@ -796,11 +812,9 @@ body {
                 width: 53%; } }
       #main-container #app-container #gameplay-container #cards-container {
         width: 100%;
-        background: #252525;
+        background: rgba(238, 77, 47, 0.7);
         margin-top: 11px;
-        -webkit-border-radius: 8px;
-        -moz-border-radius: 8px;
-        border-radius: 8px; }
+        border-radius: 0; }
         @media (max-width: 520px) {
           #main-container #app-container #gameplay-container #cards-container {
             background: transparent;
@@ -872,3 +886,96 @@ body {
   text-transform: none !important; }
   .gradientButton .donateNow {
     border-top: 0px solid black !important; }
+
+li {
+  color: black;
+  list-style-type: none; }
+
+.text-black {
+  color: black !important; }
+
+.twitter-button {
+  margin-right: 20px;
+  margin-top: 15px; }
+
+#main-container #app-container #social-bar-container #player-container {
+  border-radius: 0; }
+
+@media (max-width: 768px) {
+  .pull-right {
+    float: left !important; }
+  .links {
+    display: flex;
+    margin-left: 35%; } }
+
+.navbar-default {
+  background-color: #ee4d2f;
+  border-color: #ffffff; }
+  .navbar-default .navbar-brand {
+    color: #ffffff; }
+    .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+      color: #ee4d2f; }
+  .navbar-default .navbar-text {
+    color: #ffffff; }
+  .navbar-default .navbar-nav > li > a {
+    color: #ffffff; }
+    .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+      color: #ee4d2f; }
+  .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: #ee4d2f;
+    background-color: #ffffff; }
+  .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: #ee4d2f;
+    background-color: #ffffff; }
+  .navbar-default .navbar-toggle {
+    border-color: #ffffff; }
+    .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+      background-color: #ffffff; }
+    .navbar-default .navbar-toggle .icon-bar {
+      background-color: #ffffff; }
+  .navbar-default .navbar-collapse,
+  .navbar-default .navbar-form {
+    border-color: #ffffff; }
+  .navbar-default .navbar-link {
+    color: #ffffff; }
+    .navbar-default .navbar-link:hover {
+      color: #ee4d2f; }
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #ffffff; }
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+      color: #ee4d2f; }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #ee4d2f;
+    background-color: #ffffff; } }
+
+.navbar-default {
+  border: none;
+  width: 100% !important; }
+
+.btn-neutral {
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid white;
+  color: white;
+  border-radius: 0px; }
+  .btn-neutral:hover {
+    color: white; }
+
+.navbar-default .navbar-brand {
+  color: white; }
+  .navbar-default .navbar-brand:hover {
+    color: white; }
+
+.invite {
+  background: rgba(238, 77, 47, 0.8);
+  border-radius: 0;
+  color: white;
+  margin-top: 10%; }
+  .invite:hover {
+    color: white;
+    background: #ee4d2f; }
+
+#game-end-info {
+  color: white;
+  z-index: 1; }
