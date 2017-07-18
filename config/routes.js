@@ -25,6 +25,9 @@ module.exports = function (app, passport, auth) {
     // Game history Route
     app.get('/api/games/history', users.showGameHistory);
 
+    // Leaderboard Route
+    app.get('/api/leaderboard', users.showLeaderboard);
+
     app.post('/users/session', passport.authenticate('local', {
         session: false
     }), users.session);

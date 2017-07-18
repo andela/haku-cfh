@@ -196,6 +196,53 @@ exports.showGameHistory = (req, res) => {
   });
 };
 
+/**
+ * @description shows leader board
+ * @function showLeaderboard
+ * @param {object} req the request data
+ * @param {object} res the response gotten
+ * @returns {object} a response message
+ */
+exports.showLeaderboard = (req, res) => {
+  User.find({})
+ .sort({ totalGamePoints: -1 })
+ .limit(30)
+ .exec((err, boardData) => {
+    if (boardData) {
+      return res.status(200).send({ boardData });
+    }
+    return res.status(404).send({ message: 'No data found' });
+ });
+};
+
+exports.saveGameDetails = (req, res) => {
+  const tempList = [];
+  req.body.players.forEach((player) => {
+    if (tempList.indexOf(player.userID) > -1) {
+      return;
+    }
+    User
+      .findOne({
+        _id: player.userID
+      })
+      .exec((err, user) => {
+        if (user) {
+          user.gamesPlayed += 1;
+          user.totalGamePoints += player.points;
+          if (req.body.winner.userID === player.userID) {
+            user.gamesWon += 1;
+          }
+          tempList.push(player.userID);
+          user.save((err) => {
+            if (err) {
+              res.json({ status: 'fail', message: err })
+            }
+             res.json({ status: 200, message: player });
+          });
+        }
+      });
+  });
+};
 
 /**
  *  Show profile
