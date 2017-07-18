@@ -1,6 +1,12 @@
 angular.module('mean.system')
 .controller('IndexController', ['$scope', '$http', 'Global', '$location', '$window', 'socket', 'game', 'AvatarService', function ($scope, $http, Global, $location, $window, socket, game, AvatarService) {
     $scope.global = Global;
+    
+    if (localStorage.token) {
+        $scope.global.authenticated = true;
+      } else {
+        $scope.global.authenticated = false;
+      }
 
     $scope.playAsGuest = function() {
       game.joinGame();

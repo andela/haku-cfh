@@ -184,23 +184,39 @@ angular.module('mean.system')
         }, 15000);
       } else if (data.state === 'game dissolved' || data.state === 'game ended') {
         if (data.state !== 'game dissolved') {
+          
           const gamePlayers = [];
-          Object.keys(game.players).map(player => gamePlayers.push(game.players[player].username));
-          const gameWinner = game.players[game.gameWinner].username;
+          Object.keys(game.players).map(player => gamePlayers.push({
+            username: game.players[player].username,
+            points: game.players[player].points,
+            userID: game.players[player].userID,
+          }));
+          const gameWinner = {
+            username: game.players[game.gameWinner].username,
+            userID: game.players[game.gameWinner].userID
+          };
+          const gameOwner = {
+            username: game.players[0].username,
+            userID: game.players[0].userID,
+          };
           const gameRound = game.round;
           const gameId = game.gameID;
-          const gameOwner = gamePlayers[0];
           const gameEnded = true;
+          const timePlayed = new Date().toUTCString();
+          const loggedInUserID = user._id;
           const gameDetails = {
             gameId,
             gameRound,
             gameOwner,
             gameWinner,
             gamePlayers,
-            gameEnded
+            gameEnded,
+            timePlayed
           };
 
-          $http.post(`/api/games/${game.gameID}/start`, gameDetails);
+          if (gameDetails.gameOwner.userID === loggedInUserID) {
+            $http.post(`/api/games/${game.gameID}/start`, gameDetails);
+          }
         }
         game.players[game.playerIndex].hand = [];
         game.time = 0;
