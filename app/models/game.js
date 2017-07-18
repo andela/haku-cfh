@@ -8,7 +8,8 @@ const GameSchema = new Schema({
   gameOwner: { type: String, required: true },
   gameWinner: { type: String, required: true },
   gamePlayers: { type: Array, default: [] },
-  gameEnded: { type: Boolean, default: false }
+  gameEnded: { type: Boolean, default: false },
+  timePlayed: { type: Date, default: new Date().toGMTString() }
 });
 
 mongoose.model('Game', GameSchema);

@@ -16,8 +16,14 @@ module.exports = function (app, passport, auth) {
     // Donation Routes
     app.post('/donations', users.addDonation);
 
+    // verifies token for all route that starts with /api
+    // app.use('/api', auth.verifyUserToken);
+
     // View Donations Route
     app.get('/api/donations', users.showDonations);
+
+    // Game history Route
+    app.get('/api/games/history', users.showGameHistory);
 
     app.post('/users/session', passport.authenticate('local', {
         session: false

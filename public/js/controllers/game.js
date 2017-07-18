@@ -9,16 +9,32 @@ angular.module('mean.system')
     var makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
     $scope.makeAWishFact = makeAWishFacts.pop();
     $scope.introJS = introJs();
+    $scope.donationsShow = false;
+    $scope.historyShow = false;
 
     $scope.userDonations = [];
     $scope.getDonations = function() {
         $http.get('/api/donations')
           .success(function (data) {
-            $scope.userDonations = data.donations;
+            if (data.donations && data.donations.length > 0) {
+              $scope.donationsShow = true;
+              $scope.userDonations = data.donations;
+            }
         });
     };
-
     $scope.getDonations();
+
+    $scope.gameHistory = [];
+    $scope.getHistory = function() {
+        $http.get('/api/games/history')
+          .success(function (data) {
+            if (data.games && data.games.length > 0) {
+              $scope.historyShow = true;
+              $scope.gameHistory = data.games;
+            }
+        });
+    };
+    $scope.getHistory();
 
     $scope.pickCard = function(card) {
       if (!$scope.hasPickedCards) {

@@ -32,6 +32,12 @@ exports.signup = (req, res) => {
               message: 'An error occurred'
             });
           }
+
+          req.logIn(user, (err) => {
+            if (err) {
+              return res.status(500).send({ message: 'An error occured' });
+            }
+          });
           res.status(201).send({ token, user });
         });
       } catch (error) {
@@ -68,6 +74,11 @@ exports.login = (req, res) => {
     // If a user is found
     try {
       token = user.generateToken();
+      req.logIn(user, (err) => {
+        if (err) {
+          return res.status(500).send({ message: 'An error occured' });
+        }
+      });
       return res.status(200).json({ token, user });
     } catch (error) {
       return res.status(500).send({

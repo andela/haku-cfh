@@ -10,7 +10,7 @@ exports.saveGame = (req, res) => {
   game.gameWinner = req.body.gameWinner;
   game.gamePlayers = req.body.gamePlayers;
   game.gameEnded = req.body.gameEnded;
-  game.gameStartTime = req.body.gameStartTime;
+  game.timePlayed = req.body.timePlayed;
 
   game.save((err) => {
     if (err) {

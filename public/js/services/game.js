@@ -181,13 +181,15 @@ angular.module('mean.system')
           const gameId = game.gameID;
           const gameOwner = gamePlayers[0];
           const gameEnded = true;
+          const timePlayed = new Date().toGMTString();
           const gameDetails = {
             gameId,
             gameRound,
             gameOwner,
             gameWinner,
             gamePlayers,
-            gameEnded
+            gameEnded,
+            timePlayed
           };
 
           $http.post(`/api/games/${game.gameID}/start`, gameDetails);

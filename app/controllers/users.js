@@ -2,7 +2,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  Game = mongoose.model('Game');
 var avatars = require('./avatars').all();
 
 /**
@@ -152,11 +153,18 @@ exports.addDonation = function(req, res) {
   res.send();
 };
 
+/**
+ * @description shows donations from a particular user using the user id
+ * @function showDonations
+ * @param {object} req the request data. we'll need the user id from the req object
+ * @param {object} res the response gotten
+ * @returns {object} a response message
+ */
 exports.showDonations = (req, res) => {
   User.findOne({
-    _id: '5963c78266a4c09602000001'
+    _id: req.user._id
   })
-  .limit(1)
+  .limit(20)
   .exec((err, user) => {
     if (user) {
       return res.status(200).send({
@@ -167,6 +175,27 @@ exports.showDonations = (req, res) => {
     return res.status(404).send({ message: 'No donations associated with this user' });
   });
 };
+
+/**
+ * @description shows game history
+ * @function showGameHistory
+ * @param {object} req the request data. we'll need the user id from the req object
+ * @param {object} res the response gotten
+ * @returns {object} a response message
+ */
+exports.showGameHistory = (req, res) => {
+  Game.find({
+    gamePlayers: req.user.name
+  })
+  .limit(30)
+  .exec((err, games) => {
+    if (games) {
+      return res.status(200).send({ games });
+    }
+    return res.status(404).send({ message: 'You Have not played any games yet' });
+  });
+};
+
 
 /**
  *  Show profile
