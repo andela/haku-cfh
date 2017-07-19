@@ -4,29 +4,29 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
           $routeProvider.
           when('/', {
             templateUrl: 'views/index.html'
-          }).
-          when('/app', {
+          })
+          .when('/app', {
             templateUrl: '/views/app.html',
-          }).
-          when('/privacy', {
+          })
+          .when('/privacy', {
             templateUrl: '/views/privacy.html',
-          }).
-          when('/bottom', {
+          })
+          .when('/bottom', {
             templateUrl: '/views/bottom.html'
-          }).
-          when('/signin', {
+          })
+          .when('/signin', {
             templateUrl: '/views/signin.html'
-          }).
-          when('/signup', {
+          })
+          .when('/signup', {
             templateUrl: '/views/signup.html'
-          }).
-          when('/choose-avatar', {
+          })
+          .when('/choose-avatar', {
             templateUrl: '/views/choose-avatar.html'
-          }).
-          when('/dashboard', {
+          })
+          .when('/dashboard', {
             templateUrl: '/views/dashboard.html'
-          }).
-          otherwise({
+          })
+          .otherwise({
             redirectTo: '/'
           });
       }

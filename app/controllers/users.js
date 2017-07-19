@@ -186,8 +186,9 @@ exports.showDonations = (req, res) => {
  * @returns {object} a response message
  */
 exports.showGameHistory = (req, res) => {
+  const userId = req.user._id.toString();
   Game.find({
-    gamePlayers: req.user.name
+    gamePlayers: { $elemMatch: { userID: userId } }
   })
   .limit(30)
   .exec((err, games) => {
@@ -198,6 +199,7 @@ exports.showGameHistory = (req, res) => {
   });
 };
 
+
 /**
  * @description shows leader board
  * @function showLeaderboard
@@ -206,7 +208,13 @@ exports.showGameHistory = (req, res) => {
  * @returns {object} a response message
  */
 exports.showLeaderboard = (req, res) => {
-  User.find({})
+  User.find({}, {
+    name: 1,
+    avatar: 1,
+    gamesPlayed: 1,
+    gamesWon: 1,
+    totalGamePoints: 1,
+  })
  .sort({ totalGamePoints: -1 })
  .limit(30)
  .exec((err, boardData) => {
@@ -217,33 +225,45 @@ exports.showLeaderboard = (req, res) => {
  });
 };
 
-exports.saveGameDetails = (req, res) => {
-  const tempList = [];
-  req.body.players.forEach((player) => {
-    if (tempList.indexOf(player.userID) > -1) {
-      return;
-    }
-    User
-      .findOne({
-        _id: player.userID
-      })
-      .exec((err, user) => {
-        if (user) {
-          user.gamesPlayed += 1;
-          user.totalGamePoints += player.points;
-          if (req.body.winner.userID === player.userID) {
-            user.gamesWon += 1;
-          }
-          tempList.push(player.userID);
-          user.save((err) => {
-            if (err) {
-              res.json({ status: 'fail', message: err })
+/**
+ * @description updates user game details
+ * @function saveUserGameDetails
+ * @param {object} req the request data
+ * @param {object} res the response gotten
+ * @returns {object} a response message
+ */
+exports.saveUserGameDetails = (req, res) => {
+  if (req.body.gamePlayers.length >= 1) {
+    req.body.gamePlayers.forEach((player) => {
+      if (player.userID !== 'unauthenticated') {
+        User.findOne({
+          _id: player.userID
+        }).exec((err, user) => {
+          if (user) {
+            user.gamesPlayed += 1;
+            user.totalGamePoints += player.points;
+            if (req.body.gameWinner.userID === player.userID) {
+              user.gamesWon += 1;
             }
-             res.json({ status: 200, message: player });
-          });
-        }
-      });
-  });
+
+            User.update({ _id: user._id }, {
+              gamesPlayed: user.gamesPlayed,
+              gamesWon: user.gamesWon,
+              totalGamePoints: user.totalGamePoints
+            },
+            (error, numberAffected, rawResponse) => {
+              if (error) {
+                return res.status(404).send({ message: 'update failed' });
+              }
+              return res.status(200).send({ player });
+            });
+          }
+        });
+      }
+    });
+  } else {
+    return res.status(404).send({ message: 'No user played this game' });
+  }
 };
 
 /**
@@ -337,4 +357,3 @@ exports.sendMail = (req, res) => {
 exports.saveRegion = (req, res) => {
   localStorage.setItem('region', req.body.player_region);
 };
-

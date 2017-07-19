@@ -216,6 +216,7 @@ angular.module('mean.system')
 
           if (gameDetails.gameOwner.userID === loggedInUserID) {
             $http.post(`/api/games/${game.gameID}/start`, gameDetails);
+            $http.put('/api/users/gameupdate', gameDetails);
           }
         }
         game.players[game.playerIndex].hand = [];

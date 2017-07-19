@@ -55,31 +55,36 @@ $(document).ready(function() {
                 Cards for Humanity is a fast-paced online version of the popular card game, Cards Against Humanity, that gives you the opportunity to donate to children in need - all while remaining as despicable and awkward as you naturally are.
               </p>
               <p>
-                Warning! This game contains offensive, profane, explicit content created by Cards Against Humanity and provided here, uncensored and complete, in digital form. Human Resources made us say that.
+                  THIS GAME IS FOR PEOPLE AGED 18+ ONLY
+              </p>
+              <p>
+                Warning! This game contains offensive, profane, explicit content created by Cards Against Humanity and provided here, uncensored and complete, in digital form.
               </p>
               <span ng-show="showOptions">
                  <p>*To send a private link to your friends, <a href="/signup">sign up!</a></p>
                </span>
                <button class="btn btn-secondary" data-toggle="modal" data-target="#select-region">Play Game</button>
-               <span ng-hide="showOptions">
-                     <span id='twitter-facebook'>
-                       <span id="tweet-container-index">
-                         <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://cfh.io" data-text="Cards for Humanity: A Game for Horrible People Desperately Trying to do Good" data-related="CFH_App">Tweet</a>
-                       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-                       </span>
-                       <span id='facebook-share'>
-                           <a href="#"
-                             onclick="
-                               window.open(
-                                 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
-                                 'facebook-share-dialog',
-                                 'width=626,height=436');
-                               return false;">
-                             <i class="fa fa-facebook-official" aria-hidden="true"></i>
-                           </a>
-                       </span>
-                     </span>
-               </span>
+               <div class="p10">
+                <span ng-hide="showOptions">
+                  <span id='twitter-facebook'>
+                    <span id="tweet-container-index">
+                      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://cfh.io" data-text="Cards for Humanity: A Game for Horrible People Desperately Trying to do Good" data-related="CFH_App">Tweet</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                    </span>
+                    <span id='facebook-share'>
+                        <a href="#"
+                          onclick="
+                            window.open(
+                              'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                              'facebook-share-dialog',
+                              'width=626,height=436');
+                            return false;">
+                          <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                  </span>
+                </span>
+               </div>
             </button>
           </div>
         </div>
@@ -187,7 +192,7 @@ $(document).ready(function() {
                 </select>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="playAsAGuest()" style="background-color: #69d2e8; border:none; color: #fff;" >Play As A Guest</button>
+              <button type="button" class="btn btn-primary pull-left" data-dismiss="modal" ng-click="playAsAGuest()" style="background-color: #69d2e8; border:none; color: #fff;" >Play As A Guest</button>
               <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="playWithFriends()" style="background-color: #69d2e8; border:none; color: #fff;" >Play With Friends</button>
             </div>
           </div>

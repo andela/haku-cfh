@@ -28,6 +28,9 @@ module.exports = function (app, passport, auth) {
     // Game history Route
     app.get('/api/games/history', users.showGameHistory);
 
+    // update user gane details
+    app.put('/api/users/gameupdate', users.saveUserGameDetails);
+
     // Leaderboard Route
     app.get('/api/leaderboard', users.showLeaderboard);
 
