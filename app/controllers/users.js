@@ -2,7 +2,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  Game = mongoose.model('Game');
 var avatars = require('./avatars').all();
 const helper = require('sendgrid').mail;
 const sg = require('sendgrid') (process.env.SENDGRID_API_KEY);
@@ -155,6 +156,117 @@ exports.addDonation = function(req, res) {
 };
 
 /**
+ * @description shows donations from a particular user using the user id
+ * @function showDonations
+ * @param {object} req the request data. we'll need the user id from the req object
+ * @param {object} res the response gotten
+ * @returns {object} a response message
+ */
+exports.showDonations = (req, res) => {
+  User.findOne({
+    _id: req.user._id
+  })
+  .limit(20)
+  .exec((err, user) => {
+    if (user) {
+      return res.status(200).send({
+        name: user.name,
+        donations: user.donations,
+      });
+    }
+    return res.status(404).send({ message: 'No donations associated with this user' });
+  });
+};
+
+/**
+ * @description shows game history
+ * @function showGameHistory
+ * @param {object} req the request data. we'll need the user id from the req object
+ * @param {object} res the response gotten
+ * @returns {object} a response message
+ */
+exports.showGameHistory = (req, res) => {
+  const userId = req.user._id.toString();
+  Game.find({
+    gamePlayers: { $elemMatch: { userID: userId } }
+  })
+  .limit(30)
+  .exec((err, games) => {
+    if (games) {
+      return res.status(200).send({ games });
+    }
+    return res.status(404).send({ message: 'You Have not played any games yet' });
+  });
+};
+
+
+/**
+ * @description shows leader board
+ * @function showLeaderboard
+ * @param {object} req the request data
+ * @param {object} res the response gotten
+ * @returns {object} a response message
+ */
+exports.showLeaderboard = (req, res) => {
+  User.find({}, {
+    name: 1,
+    avatar: 1,
+    gamesPlayed: 1,
+    gamesWon: 1,
+    totalGamePoints: 1,
+  })
+ .sort({ totalGamePoints: -1 })
+ .limit(30)
+ .exec((err, boardData) => {
+    if (boardData) {
+      return res.status(200).send({ boardData });
+    }
+    return res.status(404).send({ message: 'No data found' });
+ });
+};
+
+/**
+ * @description updates user game details
+ * @function saveUserGameDetails
+ * @param {object} req the request data
+ * @param {object} res the response gotten
+ * @returns {object} a response message
+ */
+exports.saveUserGameDetails = (req, res) => {
+  if (req.body.gamePlayers.length >= 1) {
+    req.body.gamePlayers.forEach((player) => {
+      if (player.userID !== 'unauthenticated') {
+        User.findOne({
+          _id: player.userID
+        }).exec((err, user) => {
+          if (user) {
+            user.gamesPlayed += 1;
+            user.totalGamePoints += player.points;
+            if (req.body.gameWinner.userID === player.userID) {
+              user.gamesWon += 1;
+            }
+
+            User.update({ _id: user._id }, {
+              gamesPlayed: user.gamesPlayed,
+              gamesWon: user.gamesWon,
+              totalGamePoints: user.totalGamePoints
+            },
+            (error, numberAffected, rawResponse) => {
+              if (error) {
+                return res.status(404).send({ message: 'update failed' });
+              }
+              return res.status(200).send({ player });
+            });
+          }
+        });
+      }
+    });
+  } else {
+    return res.status(404).send({ message: 'No user played this game' });
+  }
+};
+
+/**
  *  Show profile
  */
 exports.show = function(req, res) {
@@ -165,6 +277,7 @@ exports.show = function(req, res) {
     user: user
   });
 };
+
 
 /**
  * Send User
@@ -244,4 +357,3 @@ exports.sendMail = (req, res) => {
 exports.saveRegion = (req, res) => {
   localStorage.setItem('region', req.body.player_region);
 };
-

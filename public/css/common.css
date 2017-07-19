@@ -99,6 +99,11 @@ body {
   margin-top: 50px;
   width: 70%; }
 
+.dashboard_bg {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px; }
+
 #main-container {
   height: 100%; }
   #main-container #app-container {

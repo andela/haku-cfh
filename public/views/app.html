@@ -1,6 +1,5 @@
 </script>
 <div id="app-container" ng-init="checkCookie()" ng-controller="GameController">
-  <!-- Bootstrap navbar -->
   <nav class="navbar navbar-default">
   <div class="container-fluid" >
     <div class="navbar-header">
@@ -14,8 +13,8 @@
         Cards For Humanity
       </a>
     </div>
-  </div> <!-- container-fluid -->
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
+  </div> 
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="IndexController">
       <ul class="nav navbar-nav pull-right links">
         <li class="twitter-button navbar-btn">
           <span id="tweet-container">
@@ -23,7 +22,7 @@
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
           </span>
         </li>
-
+          <a href="#!/dashboard" class="btn btn-neutral navbar-btn" ng-hide="showOptions">Dashboard</a>
         <li>
           <button id='abandon-game-button' class="btn btn-neutral navbar-btn" ng-click="abandonGame()">
             Abandon Game

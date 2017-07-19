@@ -11,6 +11,45 @@ angular.module('mean.system')
     var makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
     $scope.makeAWishFact = makeAWishFacts.pop();
     $scope.introJS = introJs();
+    $scope.donationsShow = false;
+    $scope.historyShow = false;
+    $scope.leaderboardShow = false;
+
+    $scope.userDonations = [];
+    $scope.getDonations = () => {
+      $http.get('/api/donations')
+        .success((data) => {
+          if (data.donations && data.donations.length > 0) {
+            $scope.donationsShow = true;
+            $scope.userDonations = data.donations;
+          }
+        });
+    };
+    $scope.getDonations();
+
+    $scope.gameHistory = [];
+    $scope.getHistory = () => {
+      $http.get('/api/games/history')
+        .success((data) => {
+          if (data.games && data.games.length > 0) {
+            $scope.historyShow = true;
+            $scope.gameHistory = data.games;
+          }
+        });
+    };
+    $scope.getHistory();
+
+    $scope.gameLeaderBoard = [];
+    $scope.getLeaderboard = () => {
+      $http.get('/api/leaderboard')
+        .success((leaderboard) => {
+          if (leaderboard.boardData && leaderboard.boardData.length > 0) {
+            $scope.leaderboardShow = true;
+            $scope.gameLeaderBoard = leaderboard.boardData;
+          }
+        });
+    };
+    $scope.getLeaderboard();
 
     $scope.pickCard = function(card) {
       if (!$scope.hasPickedCards) {
@@ -29,6 +68,33 @@ angular.module('mean.system')
           $scope.pickedCards.pop();
         }
       }
+    };
+
+    $scope.generateUserBadge = (gamesWon) => {
+      /** object containing user badges and levels */
+      const userBadge = {
+        d0: '/img/badges/1.jpg',
+        d1: '/img/badges/2.jpg',
+        d2: '/img/badges/3.jpg',
+        d3: '/img/badges/4.jpg',
+        d4: '/img/badges/5.jpg',
+        d5: '/img/badges/6.jpg',
+      };
+
+      if (gamesWon >= 1 && gamesWon < 10) {
+        return userBadge.d1;
+      } else if (gamesWon >= 11 && gamesWon < 20) {
+        return userBadge.d2;
+      } else if (gamesWon >= 21 && gamesWon < 30) {
+        return userBadge.d3;
+      } else if (gamesWon >= 31 && gamesWon < 40) {
+        return userBadge.d4;
+      } else if (gamesWon >= 41 && gamesWon < 50) {
+        return userBadge.d5;
+      } else if (gamesWon >= 51) {
+        return userBadge.d6;
+      }
+      return '';
     };
 
     $scope.searchUser = () => {
@@ -295,6 +361,7 @@ angular.module('mean.system')
       for (let i = 0; i < cookies.length; i += 1) {
         const name = cookies[i].split('=')[0];
         const value = cookies[i].split('=')[1];
+
         if (name === cookieName) {
           return value;
         } else if (value === cookieName) {

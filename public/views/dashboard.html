@@ -1,0 +1,156 @@
+</script>
+<div class="bodylay"></div>
+<div id="app-container" ng-controller="GameController">
+  <nav class="navbar navbar-default">
+  <div class="container-fluid" >
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a id="logo" class="navbar-brand " href="/">
+        Cards For Humanity
+      </a>
+    </div>
+  </div> 
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
+      <ul class="nav navbar-nav pull-right links">
+        <li class="twitter-button navbar-btn">
+          <span id="tweet-container">
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://cfh.io" data-text="Cards for Humanity: A Game for Horrible People Desperately Trying to do Good" data-related="CFH_App">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+          </span>
+        </li>
+        <li>
+
+        </li>
+          <a href="#!/dashboard" class="btn btn-neutral navbar-btn">Dashboard</a>
+        <li>
+          <button id='abandon-game-button' class="btn btn-neutral navbar-btn" ng-click="abandonGame()">
+            Abandon Game
+          </button>
+        </li>
+      </ul>
+  </div>
+  
+</nav> <!--Navbar END -->
+  <div class="container dashboard_bg">
+    <ul class="nav nav-tabs tabs-3 red" role="tablist">
+      <li class="nav-item active">
+          <a class="nav-link" data-toggle="tab" href="#game-history" role="tab">Game History</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#leaderboard" role="tab">Leader Board</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#donations" role="tab">Donations</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="game-history" role="tabpanel">
+        <table class="table table-striped" ng-show="historyShow">
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>Game Owner</th>
+              <th>Players</th>
+              <th class="table-center">No. of Rounds</th>
+              <th class="table-center">Game Winner</th>
+              <th>Date Played</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="games in gameHistory" class="donations ng-scope">
+              <td width="30px">{{$index+1}}</td>
+              <td>{{games.gameOwner.username}}</td>
+              <td>
+                <span ng-repeat="players in games.gamePlayers">
+                  <span class="btn btn-danger btn-xs"><i class="fa fa-user"></i> {{players.username}} </span>
+                </span>
+              </td>
+              <td class="table-center">{{games.gameRound}}</td>
+              <td class="table-center">{{games.gameWinner.username}}</td>
+              <td>{{games.timePlayed.split('T')[0]}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div ng-hide="historyShow" class="alert alert-info">No game history found</div>
+      </div> 
+      <div class="tab-pane fade" id="leaderboard" role="tabpanel">
+        <table class="table table-striped" ng-show="leaderboardShow">
+          <div class="p20">
+            <span class="col-md-6 badge-holder">
+              <img class="user-badges" src="/img/badges/1.jpg" width="30px" alt="">
+             You need to at least 1 game to earn this badge
+            </span>
+            <span class="col-md-6">
+              <img class="user-badges" src="/img/badges/2.jpg" width="30px" alt="">
+              You need to win  a minimun of 11 games to earn this badge
+            </span>
+            <span class="col-md-6">
+              <img class="user-badges" src="/img/badges/3.jpg" width="30px" alt="">
+              You need to win  a minimun of 21 games to earn this badge
+            </span class="col-md-6">
+            <span class="col-md-6">
+              <img class="user-badges" src="/img/badges/4.jpg" width="30px" alt="">
+              You need to win  a minimun of 31 games to earn this badge
+            </span>
+            <span class="col-md-6">
+              <img class="user-badges" src="/img/badges/5.jpg" width="30px" alt="">
+              You need to win  a minimun of 41 games to earn this badge
+            </span>
+            <span class="col-md-6">
+              <img class="user-badges" src="/img/badges/6.jpg" width="30px" alt="">
+              You need to win  a minimun of 51 games to earn this badge
+            </span>
+            <div class="clearfix"></div>
+          </div>          
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th colspan="2">Player</th>
+              <th class="table-center">Games Played</th>
+              <th class="table-center">Games Won</th>
+              <th class="table-center">Total Game Points</th>
+              <th class="table-center"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="leader in gameLeaderBoard">
+              <td width="30px">{{$index+1}}</td>
+              <td width="30px"><img src="{{leader.avatar}}" width="30px" alt="{{leader.name}}"></td>
+              <td>{{leader.name}}</td>
+              <td class="table-center">{{leader.gamesPlayed}}</td>
+              <td class="table-center">{{leader.gamesWon}}</td>
+              <td class="table-center">{{leader.totalGamePoints}}</td>
+              <td><img class="user-badges" ng-src="{{generateUserBadge(leader.gamesWon)}}" alt=""></td>
+            </tr>
+          </tbody>
+        </table>
+        <div ng-hide="leaderboardShow" class="alert alert-info">No games played yet</div>
+      </div>
+      <div class="tab-pane fade" id="donations" role="tabpanel">
+        <table class="table table-striped" ng-show="donationsShow">
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="donations in userDonations" class="donations ng-scope">
+              <td width="30px">{{$index+1}}</td>
+              <td>{{donations.amount}}</td>
+              <td>{{donations.date.split('T')[0]}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div ng-hide="donationsShow" class="alert alert-info">No donations made</div>
+      </div>
+    </div>
+  </div>
+</div>
