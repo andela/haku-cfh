@@ -3,6 +3,7 @@ angular.module('mean.system')
     const game = {
       id: null, // This player's socket ID, so we know who this player is
       gameID: null,
+      messages: [],
       players: [],
       playerIndex: 0,
       winningCard: -1,
@@ -260,6 +261,14 @@ angular.module('mean.system')
 
     game.startNextRound = () => {
       socket.emit('czarCardSelected');
+    };
+
+    socket.on('chat message', function (data) {
+      game.messages.push(data);
+    });
+
+    game.sendChat = function (msg) {
+      socket.emit('chat message', msg);
     };
 
     decrementTime();
