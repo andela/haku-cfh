@@ -32,6 +32,26 @@ h1, h2, h3, h4, h5, h6 {
 .text-center {
   text-align: center; }
 
+.table > tbody > tr > td {
+  vertical-align: middle !important; }
+
+.table-center {
+  text-align: center; }
+
+.user-badges {
+  -webkit-border-radius: 40px;
+  border-radius: 40px;
+  background-clip: padding-box;
+  /* stops bg color from leaking outside the border: */
+  width: 40px;
+  height: 40px; }
+
+.badge-holder span {
+  vertical-align: middle; }
+
+.crDonateTriangle img {
+  display: none; }
+
 .overlay, #welcome .overlay, #htp .overlay, #login-signup .overlay {
   position: absolute;
   top: 0px;
@@ -61,7 +81,7 @@ ul.avatar-list li {
     max-width: 25px; }
 
 #welcome {
-  background: url("../img/card.jpg");
+  background: url("../img/cfh-bg1.jpg");
   text-align: center; }
   #welcome .overlay {
     background: rgba(255, 255, 255, 0.9); }
@@ -89,18 +109,20 @@ ul.avatar-list li {
     font-size: 1.2em; }
     #welcome .orange-bg p {
       margin: 0 0 20px 0; }
+    #welcome .orange-bg .btn-secondary {
+      background: #fff; }
 
 #htp {
-  background: url("../img/htp.jpg"); }
+  background: url("../img/cfh-bg1.jpg"); }
   #htp .overlay {
-    background: rgba(0, 0, 0, 0.9); }
+    background: rgba(0, 0, 0, 0.8); }
   #htp h2 {
     font-size: 3.25em;
     padding: 1em;
     color: #fff;
     font-weight: bold;
     z-index: 2;
-    background: #fca037;
+    background: #ee4d2f;
     margin: 0 0 30px 0; }
 
 #how-to-play {
@@ -252,3 +274,38 @@ span.nav li {
   background: #fff;
   margin: 0 0 10px 0;
   padding: 10px; }
+
+.chatting {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  background: #fff;
+  padding: 10px; }
+
+.chat-header {
+  background: #ee4d2f;
+  color: #fff;
+  margin: 0 0 10px 0;
+  padding: 10px; }
+
+#chatbox ul#messages {
+  width: 300px;
+  max-width: 300px;
+  max-height: 250px;
+  overflow-y: scroll;
+  padding: 10px;
+  margin: 10px 0; }
+
+#chatbox ul#messages {
+  width: 300px;
+  max-width: 300px;
+  max-height: 250px;
+  overflow-y: scroll;
+  padding: 10px;
+  margin: 10px 0; }
+
+#chatbox ul#messages li {
+  border: 1px dotted #eee;
+  padding: 5px;
+  background: #fbfbfb;
+  margin: 0 0 5px 0; }
