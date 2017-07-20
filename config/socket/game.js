@@ -85,6 +85,14 @@ Game.prototype.sendNotification = function(msg) {
   this.io.sockets.in(this.gameID).emit('notification', {notification: msg});
 };
 
+Game.prototype.sendChat = function (msg, thisPlayer) {
+  const playerIndex = this._findPlayerIndexBySocket(thisPlayer);
+  if (playerIndex !== -1) {
+    const playerName = this.players[playerIndex].username;
+    this.io.sockets.in(this.gameID).emit('chat message', { chat: msg, name: playerName });
+  }
+};
+
 // Currently called on each joinGame event from socket.js
 // Also called on removePlayer IF game is in 'awaiting players' state
 Game.prototype.assignPlayerColors = function() {
