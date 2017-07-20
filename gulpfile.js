@@ -31,6 +31,11 @@ gulp.task('angular-bootstrap', () => {
     .pipe(gulp.dest('public/lib/angular-bootstrap'));
 });
 
+gulp.task('emojionearea', () => {
+  gulp.src('bower_components/emojionearea/dist/*')
+    .pipe(gulp.dest('public/lib/emojionearea'));
+});
+
 gulp.task('angularUtils', () => {
   gulp.src('bower_components/angular-ui-utils/modules/route/route.js')
     .pipe(gulp.dest('public/lib/angular-ui-utils/modules'));
@@ -96,5 +101,5 @@ gulp.task('mochaTest', () => {
 
 gulp.task('test', ['mochaTest']);
 gulp.task('install', ['bower']);
-gulp.task('production', ['bower', 'sass', 'angular', 'bootstrap', 'jquery', 'underscore', 'introjs', 'font-awesome', 'angularUtils', 'angular-bootstrap']);
-gulp.task('default', ['nodemon', 'watch', 'sass', 'angular', 'bootstrap', 'jquery', 'underscore', 'introjs', 'font-awesome', 'angularUtils', 'angular-bootstrap']);
+gulp.task('production', ['bower', 'sass', 'angular', 'bootstrap', 'jquery', 'underscore', 'introjs', 'font-awesome', 'angularUtils', 'angular-bootstrap', 'emojionearea']);
+gulp.task('default', ['nodemon', 'watch', 'sass', 'angular', 'bootstrap', 'jquery', 'underscore', 'introjs', 'font-awesome', 'angularUtils', 'angular-bootstrap', 'emojionearea']);
