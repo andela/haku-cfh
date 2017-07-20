@@ -16,6 +16,13 @@ angular.module('mean.system')
     $scope.leaderboardShow = false;
 
     $scope.userDonations = [];
+
+    $scope.sendChat = function (message) {
+      game.sendChat(message);
+      $scope.msg = '';
+    };
+
+    
     $scope.getDonations = () => {
       $http.get('/api/donations')
         .success((data) => {
@@ -73,12 +80,12 @@ angular.module('mean.system')
     $scope.generateUserBadge = (gamesWon) => {
       /** object containing user badges and levels */
       const userBadge = {
-        d0: '/img/badges/1.jpg',
-        d1: '/img/badges/2.jpg',
-        d2: '/img/badges/3.jpg',
-        d3: '/img/badges/4.jpg',
-        d4: '/img/badges/5.jpg',
-        d5: '/img/badges/6.jpg',
+        d1: '/img/badges/1.jpg',
+        d2: '/img/badges/2.jpg',
+        d3: '/img/badges/3.jpg',
+        d4: '/img/badges/4.jpg',
+        d5: '/img/badges/5.jpg',
+        d6: '/img/badges/6.jpg',
       };
 
       if (gamesWon >= 1 && gamesWon < 10) {
