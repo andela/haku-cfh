@@ -1,13 +1,55 @@
 angular.module('mean.system')
-.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog) {
+.controller('GameController', ['$scope', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog','$http', function ($scope, game, $timeout, $location, MakeAWishFactsService, $dialog, $http) {
+    $scope.checkedBoxCount = 0;
     $scope.hasPickedCards = false;
     $scope.winningCardPicked = false;
     $scope.showTable = false;
     $scope.modalShown = false;
     $scope.game = game;
+    $scope.invitedUsers = [];
     $scope.pickedCards = [];
     var makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
     $scope.makeAWishFact = makeAWishFacts.pop();
+    $scope.introJS = introJs();
+    $scope.donationsShow = false;
+    $scope.historyShow = false;
+    $scope.leaderboardShow = false;
+
+    $scope.userDonations = [];
+    $scope.getDonations = () => {
+      $http.get('/api/donations')
+        .success((data) => {
+          if (data.donations && data.donations.length > 0) {
+            $scope.donationsShow = true;
+            $scope.userDonations = data.donations;
+          }
+        });
+    };
+    $scope.getDonations();
+
+    $scope.gameHistory = [];
+    $scope.getHistory = () => {
+      $http.get('/api/games/history')
+        .success((data) => {
+          if (data.games && data.games.length > 0) {
+            $scope.historyShow = true;
+            $scope.gameHistory = data.games;
+          }
+        });
+    };
+    $scope.getHistory();
+
+    $scope.gameLeaderBoard = [];
+    $scope.getLeaderboard = () => {
+      $http.get('/api/leaderboard')
+        .success((leaderboard) => {
+          if (leaderboard.boardData && leaderboard.boardData.length > 0) {
+            $scope.leaderboardShow = true;
+            $scope.gameLeaderBoard = leaderboard.boardData;
+          }
+        });
+    };
+    $scope.getLeaderboard();
 
     $scope.pickCard = function(card) {
       if (!$scope.hasPickedCards) {
@@ -27,6 +69,85 @@ angular.module('mean.system')
         }
       }
     };
+
+    $scope.generateUserBadge = (gamesWon) => {
+      /** object containing user badges and levels */
+      const userBadge = {
+        d0: '/img/badges/1.jpg',
+        d1: '/img/badges/2.jpg',
+        d2: '/img/badges/3.jpg',
+        d3: '/img/badges/4.jpg',
+        d4: '/img/badges/5.jpg',
+        d5: '/img/badges/6.jpg',
+      };
+
+      if (gamesWon >= 1 && gamesWon < 10) {
+        return userBadge.d1;
+      } else if (gamesWon >= 11 && gamesWon < 20) {
+        return userBadge.d2;
+      } else if (gamesWon >= 21 && gamesWon < 30) {
+        return userBadge.d3;
+      } else if (gamesWon >= 31 && gamesWon < 40) {
+        return userBadge.d4;
+      } else if (gamesWon >= 41 && gamesWon < 50) {
+        return userBadge.d5;
+      } else if (gamesWon >= 51) {
+        return userBadge.d6;
+      }
+      return '';
+    };
+
+    $scope.searchUser = () => {
+      const playerName = (game.players[game.playerIndex].username);
+      const searchTerm = $scope.searchTerm || ' ';
+      const playerData = { name: playerName, searchTerm };
+      $http.get(`/api/search/users/${JSON.stringify(playerData)}/`)
+      .success((response) => {
+        $scope.users = response.filter((player) => {
+          return player.name !== playerName;
+        });
+      });
+    };
+
+    $scope.countCheckedBox = () => {
+      const userDetails = $scope.users.filter(user => (
+        user.selected
+      ));
+      $scope.checkedBoxCount = userDetails.length;
+      if ($scope.checkedBoxCount > 10) {
+        const inviteSuccessful = $('#playerRequirement');
+        inviteSuccessful.find('.modal-body')
+        .text("You can only invite 11 friends, not a country.");
+        inviteSuccessful.modal('show');
+      }
+    };
+
+    $scope.sendMail = () => {
+    const userDetails = $scope.users.filter(user => (
+    user.selected
+  ));
+    userDetails.forEach((name) => {
+      const details = JSON.stringify(
+        { name: name.name,
+          email: name.email,
+          url: `${encodeURIComponent(window.location.href)}` });
+      $http.get(`/api/sendmail/${details}`).then((response) => {
+        if(response.data.invited === true){
+          $scope.invitedUsers.push(name.email);
+        }
+      });
+    });
+    $scope.searchString = '';
+    $scope.users = '';
+    // Close invitation modal and show mail sent information
+      const myModal = $('#users-modal');
+      myModal.modal('hide');
+    // show successful modal when invitations sent out successfully
+      const inviteSuccessful = $('#playerRequirement');
+      inviteSuccessful.find('.modal-body')
+      .text("Invites sent to users' email");
+      inviteSuccessful.modal('show');
+  };
 
     $scope.pointerCursorStyle = function() {
       if ($scope.isCzar() && $scope.game.state === 'waiting for czar to decide') {
@@ -121,12 +242,37 @@ angular.module('mean.system')
     };
 
     $scope.startGame = function() {
+      if ($scope.game.players.length < 3) {
+        const addPlayers = $('#playerRequirement');
+        addPlayers.find('.modal-body')
+        .text("Don't be stingy. You need at least 2 friends to play this game with you");
+        addPlayers.modal('show');
+      }
+      else{
       game.startGame();
+      }
     };
 
     $scope.abandonGame = function() {
       game.leaveGame();
+      window.user = null;
       $location.path('/');
+    };
+
+    $scope.shuffleCards = () => {
+      const card = $(`#${event.target.id}`);
+      card.addClass('animated flipOutY');
+      setTimeout(() => {
+        $scope.startNextRound();
+        card.removeClass('animated flipOutY');
+        $('#shuffleModal').modal('hide');
+      }, 500);
+    };
+
+    $scope.startNextRound = () => {
+      if ($scope.isCzar()) {
+        game.startNextRound();
+      }
     };
 
     // Catches changes to round to update when no players pick card
@@ -147,6 +293,26 @@ angular.module('mean.system')
       if (game.state === 'waiting for czar to decide' && $scope.showTable === false) {
         $scope.showTable = true;
       }
+      if ($scope.isCzar() && game.state === 'czar pick card' && game.table.length === 0) {
+        $('#shuffleModal').modal({
+          dismissible: false
+        });
+        $('#shuffleModal').modal('open');
+      }
+      if (game.state === 'game dissolved') {
+        $('#shuffleModal').modal('close');
+      }
+      if ($scope.isCzar() === false && game.state === 'czar pick card'
+        && game.state !== 'game dissolved'
+        && game.state !== 'awaiting players' && game.table.length === 0) {
+        $scope.czarHasDrawn = 'Wait! Czar is drawing Card';
+      }
+      if (game.state !== 'czar pick card'
+        && game.state !== 'awaiting players'
+        && game.state !== 'game dissolve') {
+        $scope.czarHasDrawn = '';
+      }
+
     });
 
     $scope.$watch('game.gameID', function() {
@@ -171,6 +337,106 @@ angular.module('mean.system')
         }
       }
     });
+
+    /**
+     * @description this sets a cookie with a name and expiry date
+     * @function
+     * @param {number} expires the cookie validity in days
+     * @returns {void}
+     */
+    $scope.setOnboardingCookie = (expires) => {
+      const date = new Date();
+      date.setTime(date.getTime() + (expires * 24 * 60 * 60 * 1000));
+      document.cookie = `onboardinguser=CFH;expires=${date.toUTCString()};path=/`;
+    };
+
+    /**
+     * @description this gets a cookie using it's name
+     * @function
+     * @param {string} cookieName the cookie name
+     * @returns {void}
+     */
+    $scope.getCookieByName = (cookieName) => {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i += 1) {
+        const name = cookies[i].split('=')[0];
+        const value = cookies[i].split('=')[1];
+
+        if (name === cookieName) {
+          return value;
+        } else if (value === cookieName) {
+          return name;
+        }
+      }
+      return '';
+    };
+
+    /**
+     * @description checks if there is no cookie and onboards the user
+     * @function
+     * @returns {void}
+     */
+    $scope.checkCookie = () => {
+      const username = $scope.getCookieByName('onboardinguser');
+      if (username !== 'CFH') {
+        $scope.setOnboardingCookie(365);
+
+        $scope.introJS.setOptions({
+          steps: [
+            {
+              intro: `Welcome to Cards for Humanity, a game for despicable people
+                      desprately trying to do good. <br />
+                      I'm here to give you a tour and get you up to speed with
+                      playing the game. <br />
+                      While you're having fun and enjoying the game,
+                      please don't forget to make a donation. <br />
+                      So if you're ready, click the next button to start the tour`
+            },
+            {
+              element: '#player-count-container',
+              intro: `This is the number of current available players and the maximum
+                      number of players that can play the game. You need a minimum of 
+                      three (3) players to start the game`
+            },
+            {
+              element: '#question-container-outer',
+              intro: `When the minimum number of players is reached, a start game button will be shown
+                      in this container. Any player can click on the button to start the game. When a
+                      game is started, questions will appear here`
+            },
+            {
+              element: '#info-container',
+              intro: `Different cards containing answers to the questions will appear here. Select the
+                      cards(s) you think best answers the question`,
+              position: 'top'
+            },
+            {
+              element: '#inner-timer-container',
+              intro: `This countdown timer shows you how much time you have left to pick
+                      a card. (both as a player and as a czar)`
+            },
+            {
+              element: '#player-score',
+              intro: `This is each player's score. First player to reach 
+                      five (5) wins the game.`
+            },
+            {
+              element: '#abandon-game-button',
+              intro: `You can leave the game any time by clicking on the abandon
+                      game button`
+            },
+            {
+              intro: `Thank you for taking the tour. Please remember to make a donation.
+                      All donations go to the Make a Wish foundation`
+            },
+          ]
+        });
+
+        setTimeout(() => {
+          $scope.introJS.start();
+        }, 500);
+      }
+    };
 
     if ($location.search().game && !(/^\d+$/).test($location.search().game)) {
       console.log('joining custom game');

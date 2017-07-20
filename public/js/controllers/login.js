@@ -1,21 +1,27 @@
-angular.module('mean.system')
-    .controller('LoginController', ['$scope', '$http', '$location', 'Global', function ($scope, $http, $location, Global) {
-        "use strict";
+angular
+  .module('mean.system')
+  .controller('LoginController', [
+    '$scope',
+    '$http',
+    '$window',
+    '$location',
+    'Global',
+    ($scope, $http, $window, $location, Global) => {
+      $scope.global = Global;
+      $scope.user = {};
 
-        $scope.global = Global;
-
-        $scope.user = {};
-
-        $scope.login = function() {
-            $http({
-                url: '/api/auth/login',
-                method: 'POST',
-                data: $scope.user
-            }).then(function(response) {
-                localStorage.token = response.data.token;
-                $location.path('/#!/app');
-            }, function(error) {
-                alert(error.data);
-            });
-        };
-    }]);
+      $scope.login = () => {
+        $scope.errorMsg = '';
+        $http({ url: '/api/auth/login', method: 'POST', data: $scope.user })
+          .then((response) => {
+            if (response.data.token !== undefined) {
+              localStorage.token = response.data.token;
+              localStorage.user = JSON.stringify(response.data.user);
+              $location.path('/app');
+            }
+          }, (error) => {
+            $scope.errorMsg = error.data.message;
+          });
+      };
+    }
+  ]);

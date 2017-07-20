@@ -1,5 +1,5 @@
 angular.module('mean.system')
-  .factory('game', ['socket', '$timeout', '$http', function (socket, $timeout, $http) {
+  .factory('game', ['socket', '$timeout', '$http', '$window', function (socket, $timeout, $http, $window) {
     const game = {
       id: null, // This player's socket ID, so we know who this player is
       gameID: null,
@@ -11,7 +11,7 @@ angular.module('mean.system')
       table: [],
       czar: null,
       playerMinLimit: 3,
-      playerMaxLimit: 6,
+      playerMaxLimit: 12,
       pointLimit: null,
       state: null,
       round: 0,
@@ -142,7 +142,17 @@ angular.module('mean.system')
         game.state = data.state;
       }
 
-      if (data.state === 'waiting for players to pick') {
+      if (data.state === 'czar pick card') {
+        game.czar = data.czar;
+        if (game.czar === game.playerIndex) {
+          addToNotificationQueue(
+            `You are now a Czar, 
+            click black card to pop a new question`
+          );
+        } else {
+          addToNotificationQueue('Waiting for Czar to pick card');
+        }
+      } else if (data.state === 'waiting for players to pick') {
         game.czar = data.czar;
 
         game.curQuestion = data.curQuestion;
@@ -173,15 +183,27 @@ angular.module('mean.system')
           game.joinOverride = true;
         }, 15000);
       } else if (data.state === 'game dissolved' || data.state === 'game ended') {
-        if (game.state === 'game ended') {
+        if (data.state !== 'game dissolved') {
+          
           const gamePlayers = [];
-          Object.keys(game.players).map(player => gamePlayers.push(game.players[player].username));
-          const gameWinner = game.players[game.gameWinner].username;
+          Object.keys(game.players).map(player => gamePlayers.push({
+            username: game.players[player].username,
+            points: game.players[player].points,
+            userID: game.players[player].userID,
+          }));
+          const gameWinner = {
+            username: game.players[game.gameWinner].username,
+            userID: game.players[game.gameWinner].userID
+          };
+          const gameOwner = {
+            username: game.players[0].username,
+            userID: game.players[0].userID,
+          };
           const gameRound = game.round;
           const gameId = game.gameID;
-          const gameOwner = gamePlayers[0];
           const gameEnded = true;
-          const gameEndTime = Date.now();
+          const timePlayed = new Date().toUTCString();
+          const loggedInUserID = user._id;
           const gameDetails = {
             gameId,
             gameRound,
@@ -189,28 +211,18 @@ angular.module('mean.system')
             gameWinner,
             gamePlayers,
             gameEnded,
-            gameEndTime
+            timePlayed
           };
-          $http.post(`/api/games/${game.gameID}/end`, gameDetails);
+
+          if (gameDetails.gameOwner.userID === loggedInUserID) {
+            $http.post(`/api/games/${game.gameID}/start`, gameDetails);
+            $http.put('/api/users/gameupdate', gameDetails);
+          }
         }
         game.players[game.playerIndex].hand = [];
         game.time = 0;
       }
     });
-
-    game.saveGame = () => {
-      socket.emit('startGame');
-      const gameDetails = {
-        gameId: game.gameID,
-        gameRound: game.round,
-        gameOwner: game.players[0].username,
-        gameWinner: '',
-        gamePlayers: [],
-        gameEnded: false,
-        gameStartTime: Date.now()
-      };
-      $http.post(`/api/games/${game.gameID}/start`, gameDetails);
-    };
 
     socket.on('notification', (data) => {
       addToNotificationQueue(data.notification);
@@ -220,7 +232,11 @@ angular.module('mean.system')
       mode = mode || 'joinGame';
       room = room || '';
       createPrivate = createPrivate || false;
-      const userID = window.user ? user._id : 'unauthenticated';
+
+      if (localStorage.user) {
+        $window.user = JSON.parse(localStorage.user);
+      }
+      const userID = $window.user ? $window.user._id : 'unauthenticated';
       socket.emit(mode, { userID, room, createPrivate });
     };
 
@@ -240,6 +256,10 @@ angular.module('mean.system')
 
     game.pickWinning = function (card) {
       socket.emit('pickWinning', { card: card.id });
+    };
+
+    game.startNextRound = () => {
+      socket.emit('czarCardSelected');
     };
 
     decrementTime();

@@ -1,0 +1,48 @@
+{
+  "name": "haku-cfh",
+  "description": "",
+  "scripts": {
+  },
+  "env": {
+    "FB_CLIENT_ID": {
+      "required": true
+    },
+    "FB_CLIENT_SECRET": {
+      "required": true
+    },
+    "GITHUB_CLIENT_ID": {
+      "required": true
+    },
+    "GITHUB_CLIENT_SECRET": {
+      "required": true
+    },
+    "JWT_SECRET": {
+      "required": true
+    },
+    "MONGODB_URI": {
+      "required": true
+    },
+    "MONGOHQ_URL": {
+      "required": true
+    },
+    "MONGOLAB_URL": {
+      "required": true
+    },
+    "TWITTER_CONSUMER_KEY": {
+      "required": true
+    },
+    "TWITTER_CONSUMER_SECRET": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+    "mongolab"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

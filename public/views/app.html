@@ -1,19 +1,40 @@
 </script>
-<div id="app-container" ng-controller="GameController">
-  <div id="menu-container">
-    <div id="logo">
-      <span id="first-word">Cards</span>
-      <span id="second-word"> for</span>
-      <span id="third-word">Humanity</span>
+<div id="app-container" ng-init="checkCookie()" ng-controller="GameController">
+  <nav class="navbar navbar-default">
+  <div class="container-fluid" >
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a id="logo" class="navbar-brand " href="/">
+        Cards For Humanity
+      </a>
     </div>
-    <div id = 'abandon-game-button' ng-click="abandonGame()">
-        Abandon Game
-    </div>
-        <span id="tweet-container">
-      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://cfh.io" data-text="Cards for Humanity: A Game for Horrible People Desperately Trying to do Good" data-related="CFH_App">Tweet</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-    </span>
+  </div> 
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="IndexController">
+      <ul class="nav navbar-nav pull-right links">
+        <li class="twitter-button navbar-btn">
+          <span id="tweet-container">
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://cfh.io" data-text="Cards for Humanity: A Game for Horrible People Desperately Trying to do Good" data-related="CFH_App">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+          </span>
+        </li>
+          <a href="#!/dashboard" class="btn btn-neutral navbar-btn" ng-hide="showOptions">Dashboard</a>
+        <li>
+          <button id='abandon-game-button' class="btn btn-neutral navbar-btn" ng-click="abandonGame()">
+            Abandon Game
+          </button>
+        </li>
+      </ul>
   </div>
+  
+</nav> <!--Navbar END -->
+
+  <!--<div id="menu-container">
+  </div>-->
   <div id="gameplay-container">
     <div id="upper-gameplay-container">
       <div id="menu-timeremaining-container">
