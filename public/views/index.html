@@ -28,11 +28,11 @@ $(document).ready(function() {
           <li data-link="#charity"><a>CHARITY</a></li>
           <li data-link="#about"><a>ABOUT US</a></li>
           <span ng-show="showOptions">
-            <li><a href="#!/signup">Sign Up</a></li>
-            <li><a href="#!/signin">Sign In</a></li>
+            <li><a href="#!/signup" class="col-md-6 b-right">SIGN UP</a></li>
+            <li><a href="#!/signin"  class="col-md-6 b-left">SIGN IN</a></li>
           </span>
           <span ng-hide="showOptions" ng-controller="IndexController">
-            <li><a href="#!/signout" ng-click="logout()">Sign Out</a></li>
+            <li><a href="#!/signout" ng-click="logout()">SIGN OUT</a></li>
           </span>
         </ul>
       </div>

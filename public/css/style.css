@@ -61,6 +61,12 @@ h1, h2, h3, h4, h5, h6 {
   cursor: default;
   z-index: 1; }
 
+.b-left {
+  border-left: 1px solid #ee4d2f; }
+
+.b-right {
+  border-right: 1px solid #ee4d2f; }
+
 .main {
   position: relative; }
 
@@ -171,7 +177,8 @@ ul.avatar-list li {
     position: relative;
     display: block;
     padding: 10px 15px;
-    text-decoration: none; }
+    text-decoration: none;
+    cursor: pointer; }
 
 .nav li {
   position: relative;
