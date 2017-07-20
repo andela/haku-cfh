@@ -122,6 +122,14 @@ $yellow: #fca037;
 	z-index: 1;
 }
 
+.b-left {
+	border-left: 1px solid $orange;
+}
+
+.b-right {
+	border-right: 1px solid $orange;
+}
+
 .main {
 	position: relative;
 }
@@ -280,6 +288,7 @@ ul.avatar-list li {
 		display: block;
 		padding: 10px 15px;
 		text-decoration: none;
+		cursor: pointer;
 	}
 }
 
