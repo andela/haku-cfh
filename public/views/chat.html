@@ -1,0 +1,60 @@
+<div id="chat-id" >
+  <div class="chatbox" id="chatbox">
+    <div class="chat-header">
+      <p class="title">Chat Box</p>
+    </div>
+      <div>
+        <ul id="messages">
+            <li class="message" ng-repeat="message in game.messages"><strong>{{message.name}}:</strong> {{message.chat}}</li>
+          </ul>
+      </div>
+      <div class="form afix">
+        <form action="">
+          <input type="hidden" id="user" value="{{game.players[game.playerIndex].username}}" />
+          <input id="chatMsg" class="form-control input-group" ng-model="msg" autocomplete="off"  placeholder="type a message......"/>
+        </form>
+      </div>
+  </div>
+</div>
+
+<script>
+
+  function loadChatbox() {
+    var e = document.getElementById("minim-chat");
+    e.style.display = "block";
+    var e = document.getElementById("maxi-chat");
+    e.style.display = "none";
+    var e = document.getElementById("chatbox");
+    e.style.margin = "0";
+  }
+  function closeChatbox() {
+    var e = document.getElementById("chatbox");
+    e.style.margin = "0 0 -1500px 0";
+  }
+  function minimChatbox() {
+    var e = document.getElementById("minim-chat");
+    e.style.display = "none";
+    var e = document.getElementById("maxi-chat");
+    e.style.display = "block";
+    var e = document.getElementById("chatbox");
+    e.style.margin = "0 0 0px 0";
+  }
+
+  // Emojis for chat
+  $(document).ready(function() {
+    $("#chatMsg").emojioneArea({
+      pickerPosition: "top",
+      events: {
+        keyup: function (editor, event) {
+          const typer = $('#user').val();
+          if (event.which == 13) {
+            angular.element('#app-container').scope().sendChat(this.getText());
+            $("#messages").animate({ scrollTop: $('#messages').prop("scrollHeight")}, 1000);
+            this.setText('');
+          }
+        }
+        }
+    });
+  });
+
+</script>
